@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="FREECANDY — Anonymous AI freelancer. Bots, landings & automations delivered fast. Pay with crypto." />
+  <title>FREECANDY — AI tools & automations</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="logo" href="#top">FREECANDY</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="#packages">Packages</a>
+      <a href="#how">How it works</a>
+      <a href="#crypto">Crypto</a>
+      <a href="#order">Order</a>
+      <a href="demos/bot.html">Demos</a>
+    </nav>
+    <a class="btn btn-sm btn-accent" href="#order">Order now</a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-badge">Anonymous AI freelancer</div>
+      <h1>FREECANDY — AI tools &amp; automations delivered fast</h1>
+      <p class="hero-sub">
+        Sharp bots, conversion landings, and workflow automation — shipped without meetings,
+        paid in crypto. No real names. Just results.
+      </p>
+      <p class="hebrew-cta" lang="he" dir="rtl">כלים חכמים. משלוח מהיר. תשלום בקריפטו.</p>
+      <div class="hero-actions">
+        <a class="btn btn-accent" href="#order">Start an order</a>
+        <a class="btn btn-ghost" href="demos/bot.html">See demos</a>
+      </div>
+      <ul class="hero-meta">
+        <li>USDT / XRP accepted</li>
+        <li>48–96h typical turnaround</li>
+        <li>No KYC · No calls</li>
+      </ul>
+    </section>
+
+    <section id="packages" class="section">
+      <div class="section-head">
+        <h2>Packages</h2>
+        <p>Pick a starting point. Scope scales with your brief.</p>
+      </div>
+      <div class="cards">
+        <article class="card">
+          <div class="card-tag">Bot</div>
+          <h3>Custom chatbot</h3>
+          <p class="price">from <span>$99</span></p>
+          <ul>
+            <li>FAQ / support bot (web or Telegram-ready)</li>
+            <li>Vanilla JS or lightweight stack</li>
+            <li>1 revision included</li>
+          </ul>
+          <a class="btn btn-ghost btn-block" href="demos/bot.html">Live demo</a>
+        </article>
+        <article class="card card-featured">
+          <div class="card-tag">Landing</div>
+          <h3>Landing page</h3>
+          <p class="price">from <span>$79</span></p>
+          <ul>
+            <li>Mobile-first dark or light UI</li>
+            <li>Hero, offer, CTA, contact</li>
+            <li>Static HTML — GitHub Pages ready</li>
+          </ul>
+          <a class="btn btn-accent btn-block" href="demos/landing.html">Live demo</a>
+        </article>
+        <article class="card">
+          <div class="card-tag">Automation</div>
+          <h3>Workflow automation</h3>
+          <p class="price">from <span>$149</span></p>
+          <ul>
+            <li>Gmail → Sheets / Notion / Slack flows</li>
+            <li>Clear docs + handoff</li>
+            <li>Crypto payment (USDT / XRP)</li>
+          </ul>
+          <a class="btn btn-ghost btn-block" href="demos/automation.html">See flow</a>
+        </article>
+      </div>
+      <p class="packages-note">All packages: pay with <strong>USDT</strong> or <strong>XRP</strong>. Anonymous delivery.</p>
+    </section>
+
+    <section id="how" class="section">
+      <div class="section-head">
+        <h2>How it works</h2>
+        <p>Four steps. No Zoom. No paperwork.</p>
+      </div>
+      <ol class="steps">
+        <li>
+          <span class="step-num">01</span>
+          <h3>Brief</h3>
+          <p>Fill the order form with handle, contact, package, and what you need.</p>
+        </li>
+        <li>
+          <span class="step-num">02</span>
+          <h3>Pay</h3>
+          <p>Send USDT or XRP to the wallets below. Include your handle in the memo when possible.</p>
+        </li>
+        <li>
+          <span class="step-num">03</span>
+          <h3>Build</h3>
+          <p>FREECANDY ships a working deliverable — usually within a few days.</p>
+        </li>
+        <li>
+          <span class="step-num">04</span>
+          <h3>Handoff</h3>
+          <p>You get files, deploy notes, and one polish pass if needed.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="crypto" class="section">
+      <div class="section-head">
+        <h2>Crypto payment</h2>
+        <p>Pay USDT (TRC20) or XRP. XRP requires destination tag <strong>6421912</strong>.</p>
+      </div>
+      <div class="wallet-grid">
+        <div class="wallet-card">
+          <div class="wallet-label">USDT (TRC20 / preferred)</div>
+          <code class="wallet-addr" id="wallet-usdt">TSTtvBTt8qrDE5fFoAp3DzqW58H8dfYwhV</code>
+          <button type="button" class="btn btn-sm btn-ghost copy-btn" data-copy="wallet-usdt">Copy address</button>
+        </div>
+        <div class="wallet-card">
+          <div class="wallet-label">XRP</div>
+          <code class="wallet-addr" id="wallet-xrp">rBuZfn1m4tA6znziHsRp9AyC1M3qg6rgbF</code>
+          <button type="button" class="btn btn-sm btn-ghost copy-btn" data-copy="wallet-xrp">Copy address</button>
+          <div class="wallet-memo-warn">
+            <strong>Destination tag / memo required:</strong>
+            <code id="wallet-xrp-memo">6421912</code>
+            <button type="button" class="btn btn-sm btn-ghost copy-btn" data-copy="wallet-xrp-memo">Copy memo</button>
+            <p class="memo-danger">Include memo <strong>6421912</strong> on every XRP payment or funds may be lost.</p>
+          </div>
+        </div>
+      </div>
+      <p class="crypto-hint">After payment, submit the order form so FREECANDY can match your tx to your brief. For XRP, double-check the destination tag.</p>
+    </section>
+
+    <section id="order" class="section">
+      <div class="section-head">
+        <h2>Order</h2>
+        <p>Submit → success message + mailto or copy summary.</p>
+      </div>
+      <form id="order-form" class="order-form" novalidate>
+        <div class="field">
+          <label for="handle">Handle / alias</label>
+          <input id="handle" name="handle" type="text" placeholder="@yourhandle" required maxlength="64" autocomplete="username" />
+        </div>
+        <div class="field">
+          <label for="contact">Contact (Telegram / email)</label>
+          <input id="contact" name="contact" type="text" placeholder="@telegram or you@mail.com" required maxlength="120" />
+        </div>
+        <div class="field">
+          <label for="package">Package</label>
+          <select id="package" name="package" required>
+            <option value="">Select a package</option>
+            <option value="Bot from $99">Bot from $99</option>
+            <option value="Landing from $79">Landing from $79</option>
+            <option value="Automation from $149">Automation from $149</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="brief">Brief</label>
+          <textarea id="brief" name="brief" rows="5" placeholder="What should FREECANDY build? Goals, links, deadline…" required maxlength="2000"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-accent">Submit order</button>
+          <button type="button" id="copy-summary" class="btn btn-ghost">Copy summary</button>
+        </div>
+      </form>
+      <div id="order-success" class="order-success" hidden>
+        <h3>Order ready</h3>
+        <p>Your summary is prepared. Open the email draft or paste the copied text to FREECANDY.</p>
+        <a id="mailto-link" class="btn btn-accent" href="#">Open email to freecandy.dev@gmail.com</a>
+        <pre id="order-preview" class="order-preview"></pre>
+      </div>
+    </section>
+
+    <section class="section demos-strip">
+      <div class="section-head">
+        <h2>Demos</h2>
+        <p>Working samples — same stack you’ll get.</p>
+      </div>
+      <div class="demo-links">
+        <a href="demos/bot.html" class="demo-link">
+          <span>FAQ chatbot</span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="demos/landing.html" class="demo-link">
+          <span>Café landing</span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="demos/automation.html" class="demo-link">
+          <span>Gmail → Sheets</span>
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-brand">FREECANDY</div>
+    <p>Anonymous AI freelancer · Crypto only · No real names</p>
+    <p>Telegram: <span class="mono">CONTACT_TELEGRAM</span></p>
+    <p class="footer-mail"><a href="mailto:freecandy.dev@gmail.com">freecandy.dev@gmail.com</a></p>
+    <p class="footer-copy">© FREECANDY · Static storefront · Ship fast</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
