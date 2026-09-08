@@ -1,140 +1,63 @@
-(function () {
-  "use strict";
+const clock = document.getElementById("clock");
+const tick = () => {
+  const d = new Date();
+  clock.textContent = d.toLocaleTimeString("en-GB", { hour12: false });
+};
+tick();
+setInterval(tick, 1000);
 
-  const ORDER_EMAIL = "freecandy.dev@gmail.com";
-  const form = document.getElementById("order-form");
-  const success = document.getElementById("order-success");
-  const mailtoLink = document.getElementById("mailto-link");
-  const preview = document.getElementById("order-preview");
-  const copySummaryBtn = document.getElementById("copy-summary");
-  const navToggle = document.getElementById("nav-toggle");
-  const siteNav = document.getElementById("site-nav");
-
-  function toast(msg) {
-    let el = document.querySelector(".toast");
-    if (!el) {
-      el = document.createElement("div");
-      el.className = "toast";
-      el.setAttribute("role", "status");
-      document.body.appendChild(el);
-    }
-    el.textContent = msg;
-    el.classList.add("show");
-    clearTimeout(toast._t);
-    toast._t = setTimeout(function () {
-      el.classList.remove("show");
-    }, 2200);
-  }
-
-  async function copyText(text) {
-    try {
-      await navigator.clipboard.writeText(text);
-      return true;
-    } catch (_) {
-      const ta = document.createElement("textarea");
-      ta.value = text;
-      ta.setAttribute("readonly", "");
-      ta.style.position = "fixed";
-      ta.style.left = "-9999px";
-      document.body.appendChild(ta);
-      ta.select();
-      try {
-        document.execCommand("copy");
-        return true;
-      } catch (e) {
-        return false;
-      } finally {
-        document.body.removeChild(ta);
-      }
-    }
-  }
-
-  /* Mobile nav */
-  if (navToggle && siteNav) {
-    navToggle.addEventListener("click", function () {
-      const open = siteNav.classList.toggle("is-open");
-      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
-    });
-    siteNav.querySelectorAll("a").forEach(function (link) {
-      link.addEventListener("click", function () {
-        siteNav.classList.remove("is-open");
-        navToggle.setAttribute("aria-expanded", "false");
-      });
-    });
-  }
-
-  document.querySelectorAll(".copy-btn").forEach(function (btn) {
-    btn.addEventListener("click", async function () {
-      const id = btn.getAttribute("data-copy");
-      const node = document.getElementById(id);
-      if (!node) return;
-      const ok = await copyText(node.textContent.trim());
-      toast(ok ? "Copied" : "Copy failed — select manually");
-    });
+document.querySelectorAll("[data-copy]").forEach((btn) => {
+  btnClick(btn, async () => {
+    await navigator.clipboard.writeText(btn.dataset.copy);
+    const old = btn.textContent;
+    btn.textContent = "copied";
+    btn.classList.add("copied");
+    setTimeout(() => { btn.textContent = old; btn.classList.remove("copied"); }, 900);
   });
+});
 
-  function buildSummary() {
-    const handle = (document.getElementById("handle").value || "").trim();
-    const contact = (document.getElementById("contact").value || "").trim();
-    const pkg = (document.getElementById("package").value || "").trim();
-    const brief = (document.getElementById("brief").value || "").trim();
-    return [
-      "FREECANDY ORDER",
-      "---------------",
-      "Handle: " + handle,
-      "Contact: " + contact,
-      "Package: " + pkg,
-      "",
-      "Brief:",
-      brief,
-      "",
-      "Payment:",
-      "USDT TRC20: TSTtvBTt8qrDE5fFoAp3DzqW58H8dfYwhV",
-      "XRP: rBuZfn1m4tA6znziHsRp9AyC1M3qg6rgbF",
-      "XRP destination tag (REQUIRED): 6421912",
-      "",
-      "Sent from freecandy storefront"
-    ].join("\n");
-  }
+function summary() {
+  return [
+    "FREECANDY order",
+    "handle: " + document.getElementById("handle").value.trim(),
+    "contact: " + document.getElementById("contact").value.trim(),
+    "job: " + document.getElementById("package").value,
+    "brief: " + document.getElementById("brief").value.trim()
+  ].join("\n");
+}
 
-  function validate() {
-    const handle = document.getElementById("handle");
-    const contact = document.getElementById("contact");
-    const pkg = document.getElementById("package");
-    const brief = document.getElementById("brief");
-    if (!handle.value.trim() || !contact.value.trim() || !pkg.value || !brief.value.trim()) {
-      toast("Please fill all fields");
-      return false;
-    }
-    return true;
-  }
+function btnClick(el, fn) { el.addEventListener("click", (e) => { e.preventDefault(); fn(); }); }
 
-  function showSuccess(summary) {
-    const subject = encodeURIComponent("FREECANDY order — " + document.getElementById("package").value);
-    const body = encodeURIComponent(summary);
-    mailtoLink.href = "mailto:" + ORDER_EMAIL + "?subject=" + subject + "&body=" + body;
-    preview.textContent = summary;
-    success.hidden = false;
-    success.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  }
+document.getElementById("copy-summary").addEventListener("click", async () => {
+  const form = document.getElementById("order-form");
+  if (!form.reportValidity()) return;
+  await navigator.clipboard.writeText(summary());
+  const note = document.getElementById("order-note");
+  note.hidden = false;
+  note.textContent = "Copied. Paste it to FREECANDY.";
+});
 
-  if (form) {
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      if (!validate()) return;
-      const summary = buildSummary();
-      showSuccess(summary);
-      toast("Order summary ready");
-    });
-  }
+document.getElementById("order-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const body = encodeURIComponent(summary());
+  const subject = encodeURIComponent("FREECANDY order");
+  window.location.href = "mailto:freecandy.dev@gmail.com?subject=" + subject + "&body=" + body;
+  const note = document.getElementById("order-note");
+  note.hidden = false;
+  note.textContent = "Email draft opened. USDT preferred. XRP needs memo 6421912.";
+});
 
-  if (copySummaryBtn) {
-    copySummaryBtn.addEventListener("click", async function () {
-      if (!validate()) return;
-      const summary = buildSummary();
-      showSuccess(summary);
-      const ok = await copyText(summary);
-      toast(ok ? "Summary copied" : "Could not copy — use the preview");
-    });
+function fit() {
+  const screen = document.getElementById("screen");
+  screen.style.transform = "";
+  screen.style.width = "";
+  const extra = screen.scrollHeight - window.innerHeight;
+  if (extra > 2) {
+    const scale = Math.max(0.72, window.innerHeight / screen.scrollHeight);
+    screen.style.transform = "scale(" + scale.toFixed(3) + ")";
+    screen.style.transformOrigin = "top center";
+    screen.style.width = (100 / scale).toFixed(2) + "%";
   }
-})();
+}
+window.addEventListener("resize", fit);
+window.addEventListener("load", fit);
