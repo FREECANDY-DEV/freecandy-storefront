@@ -5,19 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>FREECANDY Demo — Gmail → Sheets</title>
   <link rel="stylesheet" href="../styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-    .flow {
-      display: grid;
-      gap: 0.75rem;
-      margin: 1.5rem 0;
-    }
+    .flow { display: grid; gap: 0.75rem; margin: 1.25rem 0; }
     .node {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.1rem 1.2rem;
+      padding: 1.05rem 1.1rem;
       position: relative;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
     }
     .node::after {
       content: "↓";
@@ -25,41 +21,40 @@
       left: 50%;
       bottom: -1.05rem;
       transform: translateX(-50%);
-      color: var(--accent);
+      color: var(--neon);
       font-size: 1.1rem;
       z-index: 1;
     }
     .node:last-child::after { content: none; }
     .node-label {
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--accent);
-      font-weight: 700;
-      margin-bottom: 0.35rem;
+      color: var(--neon);
+      font-weight: 600;
+      margin-bottom: 0.3rem;
     }
-    .node h3 { margin: 0 0 0.35rem; font-size: 1.05rem; }
+    .node h3 { margin: 0 0 0.3rem; font-size: 1.05rem; }
     .node p { margin: 0; color: var(--muted); font-size: 0.92rem; }
     .panel {
-      background: #0c0e14;
+      background: #07090f;
       border: 1px solid var(--border);
-      border-radius: 12px;
       padding: 1rem;
       font-family: var(--mono);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--muted);
       overflow: auto;
       white-space: pre;
-      margin-top: 1rem;
+      margin-top: 0.75rem;
     }
     .checklist {
       list-style: none; padding: 0; margin: 1rem 0 0;
-      display: grid; gap: 0.55rem;
+      display: grid; gap: 0.5rem;
     }
     .checklist li {
       background: var(--bg-elev);
       border: 1px solid var(--border);
-      border-radius: 10px;
       padding: 0.75rem 0.9rem;
       color: var(--muted);
     }
@@ -67,65 +62,68 @@
     .pill {
       display: inline-block;
       padding: 0.25rem 0.6rem;
-      border-radius: 999px;
-      background: var(--accent-dim);
-      color: var(--accent);
-      font-size: 0.78rem;
-      font-weight: 700;
-      margin-bottom: 0.75rem;
+      background: var(--neon-dim);
+      border: 1px solid var(--border);
+      color: var(--neon);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.65rem;
     }
   </style>
 </head>
 <body>
-  <div class="noise" aria-hidden="true"></div>
+  <div class="fx-scanlines" aria-hidden="true"></div>
+  <div class="fx-noise" aria-hidden="true"></div>
   <div class="demo-page">
     <a class="demo-back" href="../index.html">← Back to FREECANDY</a>
-    <div class="pill">Automation package · from $149</div>
-    <h1>Gmail → Sheets flow</h1>
+    <div class="pill">AUTO · FROM $149</div>
+    <h1 style="font-family:var(--display);letter-spacing:0.04em;margin:0.2rem 0 0.5rem">Gmail → Sheets</h1>
     <p style="color:var(--muted);margin-top:0">
-      Example automation FREECANDY can set up: new labeled emails become structured spreadsheet rows —
-      no hacking, just legitimate Google Workspace / Zapier / Make-style glue with clear handoff.
+      Example automation: labeled emails become spreadsheet rows —
+      legitimate Google Workspace / n8n / Make glue with clear handoff. No hacking.
     </p>
 
     <div class="flow" aria-label="Automation steps">
       <div class="node">
         <div class="node-label">Trigger</div>
         <h3>New Gmail message</h3>
-        <p>Watch inbox or a label (e.g. <code>leads</code>). Filter by sender, subject keywords, or has-attachment.</p>
+        <p>Watch inbox or a label. Filter by sender, subject, or attachment.</p>
       </div>
       <div class="node">
         <div class="node-label">Parse</div>
         <h3>Extract fields</h3>
-        <p>Pull From, Subject, Date, and body snippets (or form fields from a template email).</p>
+        <p>From, Subject, Date, and body snippets (or form fields).</p>
       </div>
       <div class="node">
         <div class="node-label">Write</div>
-        <h3>Append Google Sheet row</h3>
-        <p>One row per email — timestamped, ready for CRM follow-up or reporting.</p>
+        <h3>Append Sheet row</h3>
+        <p>One row per email — timestamped for follow-up.</p>
       </div>
       <div class="node">
         <div class="node-label">Optional</div>
         <h3>Notify</h3>
-        <p>Ping Slack / Telegram / email when a high-priority lead lands.</p>
+        <p>Ping Slack / Telegram / email on high-priority leads.</p>
       </div>
     </div>
 
-    <h2>Sample sheet columns</h2>
+    <h2 style="font-family:var(--display);font-size:1.1rem;letter-spacing:0.04em">Sample columns</h2>
     <div class="panel">timestamp | from | subject | snippet | status
 2026-09-08 09:12 | ada@client.com | Quote request | Need landing by Friday… | new
 2026-09-08 10:41 | bo@studio.io | Bot FAQ | Can you clone our help center? | new</div>
 
-    <h2>What you get</h2>
+    <h2 style="font-family:var(--display);font-size:1.1rem;letter-spacing:0.04em;margin-top:1.5rem">What you get</h2>
     <ul class="checklist">
-      <li><strong>Working flow</strong> — configured in your accounts (or a shared staging setup).</li>
+      <li><strong>Working flow</strong> — in your accounts or shared staging.</li>
       <li><strong>Field map</strong> — which email parts become which columns.</li>
-      <li><strong>Handoff notes</strong> — how to pause, edit filters, and add columns safely.</li>
+      <li><strong>Handoff notes</strong> — pause, edit filters, add columns safely.</li>
       <li><strong>Crypto invoice</strong> — USDT TRC20 or XRP (memo <strong>6421912</strong> required).</li>
     </ul>
 
-    <p style="margin-top:1.75rem">
-      <a class="btn btn-accent" href="../index.html#order">Order automation</a>
-      <a class="btn btn-ghost" href="../index.html#packages" style="margin-left:0.5rem">All packages</a>
+    <p style="margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:0.55rem">
+      <a class="btn btn-neon" href="../index.html#order">Order automation</a>
+      <a class="btn btn-ghost" href="../index.html#services">All services</a>
     </p>
   </div>
 </body>

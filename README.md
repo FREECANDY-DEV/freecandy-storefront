@@ -2,35 +2,42 @@
 
 ### Anonymous AI freelancer · Ship fast · Pay in crypto
 
-> Sharp bots. Conversion landings. Real automations.  
+> Sharp bots. Conversion landings. Real automations. AI agents & more.  
 > No Zoom theater. No real names. Just results.
 
 ### 🌐 Live storefront
 
 **→ [https://freecandy-dev.github.io/freecandy-storefront/](https://freecandy-dev.github.io/freecandy-storefront/)**
 
-Open it, click the demos, order a package. That’s the product.
+One-page cyber HUD storefront — mobile-first, scroll to order. Optional demos linked from the page.
 
 ---
 
 ## What FREECANDY builds
 
-| Package | From | You get |
-|--------|------|--------|
-| **Bot** | $99 | FAQ / support chatbot (web or Telegram-ready) |
-| **Landing** | $79 | Mobile-first page ready to deploy |
-| **Automation** | $149 | Gmail ↔ Sheets / Drive-style workflows with handoff docs |
+| Service | From |
+|--------|------|
+| WhatsApp / Telegram bots | $99 |
+| Landing pages | $79 |
+| Gmail / Sheets / Drive automations | $149 |
+| n8n / Make.com workflows | $149 |
+| Custom AI chat apps / agents | $199 |
+| Web mini-games / pixel experiences | $129 |
+| AI 3D asset packs | $99 |
+| Defensive cyber learning / CTF writeups (edu only) | $79 |
+| Discord / community bots | $99 |
+| Lead systems (form → Sheet → notify) | $119 |
 
 Typical turnaround: **48–96 hours** after scope lock.  
-Payment: **USDT (TRC20)** or **XRP** (destination tag required on XRP — shown on the site).
+Payment: **USDT (TRC20)** or **XRP** (destination tag **6421912** required on XRP).
 
-Hebrew-friendly too: *כלים חכמים. משלוח מהיר. תשלום בקריפטו.*
+Hebrew-friendly: *כלים חכמים. משלוח מהיר. תשלום בקריפטו.*
 
 ---
 
 ## Try before you buy
 
-Click through the live demos on the site:
+Optional demos (linked from the storefront):
 
 - [FAQ chatbot](https://freecandy-dev.github.io/freecandy-storefront/demos/bot.html)
 - [Café landing](https://freecandy-dev.github.io/freecandy-storefront/demos/landing.html)
@@ -49,14 +56,15 @@ No calls required. Async only.
 
 ---
 
-## Repo map (for builders)
+## Repo map
 
 | Path | What it is |
 |------|------------|
-| `index.html` | Storefront |
-| `styles.css` | Dark, mobile-first UI |
-| `app.js` | Order form + copy helpers |
-| `demos/` | Clickable samples |
+| `index.html` | One-page storefront |
+| `styles.css` | Cyber HUD · mobile-first |
+| `app.js` | Nav + order form + copy helpers |
+| `assets/` | Hero + service art |
+| `demos/` | Optional clickable samples |
 | `COPY.md` | Marketplace / outreach paste copy |
 
 Local preview:
@@ -71,8 +79,9 @@ python3 -m http.server 8080
 ## Brand rules
 
 - Public face = **FREECANDY** only (no personal legal names on the site)
-- Legitimate client work only — no malware, no unauthorized access, no shady tooling
-- Keep the vibe: professional enough for a business buyer, playful enough to remember
+- Legitimate client work only — no malware, no unauthorized access, no offensive hacking-for-hire
+- Cyber learning content is **educational only**
+- Keep the vibe: professional enough for a business buyer, memorable HUD aesthetic
 
 ---
 

@@ -7,6 +7,8 @@
   const mailtoLink = document.getElementById("mailto-link");
   const preview = document.getElementById("order-preview");
   const copySummaryBtn = document.getElementById("copy-summary");
+  const navToggle = document.getElementById("nav-toggle");
+  const siteNav = document.getElementById("site-nav");
 
   function toast(msg) {
     let el = document.querySelector(".toast");
@@ -45,6 +47,20 @@
         document.body.removeChild(ta);
       }
     }
+  }
+
+  /* Mobile nav */
+  if (navToggle && siteNav) {
+    navToggle.addEventListener("click", function () {
+      const open = siteNav.classList.toggle("is-open");
+      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    siteNav.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        siteNav.classList.remove("is-open");
+        navToggle.setAttribute("aria-expanded", "false");
+      });
+    });
   }
 
   document.querySelectorAll(".copy-btn").forEach(function (btn) {
