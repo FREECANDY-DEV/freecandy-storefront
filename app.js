@@ -1,6 +1,7 @@
 const clock = document.getElementById("clock");
-setInterval(() => { clock.textContent = new Date().toLocaleTimeString("en-GB", { hour12: false }); }, 1000);
-document.getElementById("clock").textContent = new Date().toLocaleTimeString("en-GB", { hour12: false });
+const tick = () => { clock.textContent = new Date().toLocaleTimeString("en-GB", { hour12: false }); };
+tick();
+setInterval(tick, 1000);
 
 const walletBtn = document.getElementById("wallet-btn");
 const wallet = document.getElementById("wallet-panel");
