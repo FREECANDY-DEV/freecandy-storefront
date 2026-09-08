@@ -2,335 +2,79 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="FREECANDY — Anonymous AI freelancer. Bots, landings, automations & AI tools. Pay with crypto." />
-  <meta name="theme-color" content="#05060a" />
-  <title>FREECANDY — AI tools & automations</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="FREECANDY — anonymous AI operator. Bots, landings, automations. Crypto." />
+  <meta name="theme-color" content="#07080c" />
+  <title>FREECANDY</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <div class="fx-scanlines" aria-hidden="true"></div>
-  <div class="fx-grid" aria-hidden="true"></div>
-  <div class="fx-noise" aria-hidden="true"></div>
-
-  <header class="site-header">
-    <a class="logo" href="#top">
-      <span class="logo-mark" aria-hidden="true"></span>
-      FREECANDY
-    </a>
-    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-    <nav class="nav" id="site-nav" aria-label="Primary">
-      <a href="#services">Services</a>
-      <a href="#skills">Skills</a>
-      <a href="#how">How</a>
-      <a href="#crypto">Crypto</a>
-      <a href="#order">Order</a>
-      <a href="#demos">Demos</a>
-    </nav>
-    <a class="btn btn-sm btn-neon header-cta" href="#order">Order</a>
-  </header>
-
-  <main id="top">
-    <!-- HERO -->
-    <section class="hero" aria-label="Hero">
-      <div class="hero-bg" style="background-image:url('assets/hero-cyber.jpg')" role="img" aria-label="Cyber HUD candy scene"></div>
-      <div class="hero-overlay"></div>
-      <div class="hero-inner">
-        <div class="hud-frame hero-frame">
-          <div class="player-bar" aria-label="Player stats">
-            <span class="badge xp">LVL 99</span>
-            <span class="badge xp">XP 8400</span>
-            <span class="badge status">ONLINE</span>
-          </div>
-          <p class="hero-eyebrow mono">ANONYMOUS AI FREELANCER // CRYPTO ONLY</p>
-          <h1 class="hero-title glitch" data-text="FREECANDY">FREECANDY</h1>
-          <p class="hero-sub">Bots · landings · automations · AI agents — shipped fast. No meetings. No KYC. Just deliverables.</p>
-          <p class="hebrew-cta" lang="he" dir="rtl">כלים חכמים. משלוח מהיר. תשלום בקריפטו.</p>
-          <div class="hero-actions">
-            <a class="btn btn-neon" href="#order">Start order</a>
-            <a class="btn btn-ghost" href="#services">Browse services</a>
-          </div>
-          <ul class="hero-meta">
-            <li>USDT / XRP</li>
-            <li>48–96h typical</li>
-            <li>No calls</li>
-          </ul>
-        </div>
+  <div class="screen" id="screen">
+    <header class="top">
+      <div class="brand">
+        <span class="dot" aria-hidden="true"></span>
+        <strong>FREECANDY</strong>
+        <span class="sep">/</span>
+        <span class="role">operator</span>
       </div>
-    </section>
+      <div class="status" aria-label="session">
+        <span>SECURE</span>
+        <span id="clock">00:00:00</span>
+        <span class="live">LIVE</span>
+      </div>
+    </header>
 
-    <!-- SERVICES -->
-    <section id="services" class="section">
-      <div class="section-head">
-        <p class="section-tag mono">// QUEST BOARD</p>
-        <h2>Services</h2>
-        <p>Pick a mission. Scope scales with your brief. All packages: crypto pay · anonymous delivery.</p>
-      </div>
-      <div class="svc-grid">
-        <article class="svc-card cut-corner">
-          <div class="svc-img"><img src="assets/svc-bot.jpg" alt="" loading="lazy" width="640" height="400" /></div>
-          <div class="svc-body">
-            <span class="svc-tag">BOT</span>
-            <h3>WhatsApp / Telegram bots</h3>
-            <p class="price">from <strong>$99</strong></p>
-            <p>FAQ, support & lead bots for WhatsApp or Telegram. Clean handoff.</p>
-          </div>
-        </article>
-        <article class="svc-card cut-corner featured">
-          <div class="svc-img"><img src="assets/svc-landing.jpg" alt="" loading="lazy" width="640" height="400" /></div>
-          <div class="svc-body">
-            <span class="svc-tag">LANDING</span>
-            <h3>Landing pages</h3>
-            <p class="price">from <strong>$79</strong></p>
-            <p>Mobile-first static pages. Hero, offer, CTA — GitHub Pages ready.</p>
-          </div>
-        </article>
-        <article class="svc-card cut-corner">
-          <div class="svc-img"><img src="assets/svc-auto.jpg" alt="" loading="lazy" width="640" height="400" /></div>
-          <div class="svc-body">
-            <span class="svc-tag">AUTO</span>
-            <h3>Gmail / Sheets / Drive</h3>
-            <p class="price">from <strong>$149</strong></p>
-            <p>Google Workspace automations with docs & field maps.</p>
-          </div>
-        </article>
-        <article class="svc-card cut-corner">
-          <div class="svc-img"><img src="assets/svc-auto.jpg" alt="" loading="lazy" width="640" height="400" /></div>
-          <div class="svc-body">
-            <span class="svc-tag">FLOW</span>
-            <h3>n8n / Make.com workflows</h3>
-            <p class="price">from <strong>$149</strong></p>
-            <p>Multi-step integrations, triggers, notifications — production-ready.</p>
-          </div>
-        </article>
-        <article class="svc-card cut-corner">
-          <div class="svc-img"><img src="assets/svc-agent.jpg" alt="" loading="lazy" width="640" height="400" /></div>
-          <div class="svc-body">
-            <span class="svc-tag">AI</span>
-            <h3>Custom AI chat apps / agents</h3>
-            <p class="price">from <strong>$199</strong></p>
-            <p>Branded chat UIs & lightweight agents tailored to your content.</p>
-          </div>
-        </article>
-        <article class="svc-card cut-corner">
-          <div class="svc-img"><img src="assets/svc-game.jpg" alt="" loading="lazy" width="640" height="400" /></div>
-          <div class="svc-body">
-            <span class="svc-tag">GAME</span>
-            <h3>Web mini-games / pixel XP</h3>
-            <p class="price">from <strong>$129</strong></p>
-            <p>Browser games & playful pixel experiences for campaigns.</p>
-          </div>
-        </article>
-        <article class="svc-card cut-corner">
-          <div class="svc-img"><img src="assets/svc-3d.jpg" alt="" loading="lazy" width="640" height="400" /></div>
-          <div class="svc-body">
-            <span class="svc-tag">3D</span>
-            <h3>AI 3D asset packs</h3>
-            <p class="price">from <strong>$99</strong></p>
-            <p>Meshy-style pipelines — curated packs for games & product viz.</p>
-          </div>
-        </article>
-        <article class="svc-card cut-corner">
-          <div class="svc-img"><img src="assets/svc-sec.jpg" alt="" loading="lazy" width="640" height="400" /></div>
-          <div class="svc-body">
-            <span class="svc-tag">EDU</span>
-            <h3>Cyber learning / CTF writeups</h3>
-            <p class="price">from <strong>$79</strong></p>
-            <p><strong>Educational only</strong> — training materials & writeups. Never offensive hacking-for-hire.</p>
-          </div>
-        </article>
-        <article class="svc-card cut-corner">
-          <div class="svc-img"><img src="assets/svc-bot.jpg" alt="" loading="lazy" width="640" height="400" /></div>
-          <div class="svc-body">
-            <span class="svc-tag">COMMUNITY</span>
-            <h3>Discord / community bots</h3>
-            <p class="price">from <strong>$99</strong></p>
-            <p>Moderation helpers, welcome flows, role tools for your server.</p>
-          </div>
-        </article>
-        <article class="svc-card cut-corner">
-          <div class="svc-img"><img src="assets/svc-landing.jpg" alt="" loading="lazy" width="640" height="400" /></div>
-          <div class="svc-body">
-            <span class="svc-tag">LEADS</span>
-            <h3>Lead systems</h3>
-            <p class="price">from <strong>$119</strong></p>
-            <p>Form → Sheet → notify. Capture and route leads without chaos.</p>
-          </div>
-        </article>
-      </div>
-      <p class="packages-note mono">PAYLOAD: USDT · XRP · ASYNC HANDOFF</p>
-    </section>
-
-    <!-- SKILLS -->
-    <section id="skills" class="section">
-      <div class="section-head">
-        <p class="section-tag mono">// LOADOUT</p>
-        <h2>Skills</h2>
-        <p>Tools FREECANDY ships with — pick what fits your quest.</p>
-      </div>
-      <ul class="skills-grid">
-        <li class="skill-chip cut-corner"><span class="skill-xp">+12</span> AI vibe coding</li>
-        <li class="skill-chip cut-corner"><span class="skill-xp">+10</span> Python / JS / TS</li>
-        <li class="skill-chip cut-corner"><span class="skill-xp">+9</span> Google Workspace</li>
-        <li class="skill-chip cut-corner"><span class="skill-xp">+11</span> Telegram / WhatsApp</li>
-        <li class="skill-chip cut-corner"><span class="skill-xp">+10</span> n8n / Make</li>
-        <li class="skill-chip cut-corner"><span class="skill-xp">+8</span> Static sites</li>
-        <li class="skill-chip cut-corner"><span class="skill-xp">+9</span> Pixel / web games</li>
-        <li class="skill-chip cut-corner"><span class="skill-xp">+11</span> AI tooling</li>
+    <section class="panel identity">
+      <p class="kicker">anonymous AI freelance</p>
+      <h1>Ship a bot, page, or automation. No calls.</h1>
+      <p class="line">Fixed price · 48–96h · crypto only</p>
+      <ul class="offers">
+        <li><b>Bots</b><span>WhatsApp / Telegram · from $99</span></li>
+        <li><b>Pages</b><span>Mobile landing · from $79</span></li>
+        <li><b>Flows</b><span>Sheets / n8n · from $149</span></li>
       </ul>
-      <div class="stats-row" aria-label="Player stats flair">
-        <div class="stat-box cut-corner"><span class="stat-label mono">UPTIME</span><span class="stat-val">99.9%</span></div>
-        <div class="stat-box cut-corner"><span class="stat-label mono">LATENCY</span><span class="stat-val">48–96h</span></div>
-        <div class="stat-box cut-corner"><span class="stat-label mono">MODE</span><span class="stat-val">ASYNC</span></div>
-        <div class="stat-box cut-corner"><span class="stat-label mono">TRUST</span><span class="stat-val">CRYPTO</span></div>
-      </div>
     </section>
 
-    <!-- HOW -->
-    <section id="how" class="section">
-      <div class="section-head">
-        <p class="section-tag mono">// PROTOCOL</p>
-        <h2>How it works</h2>
-        <p>Four steps. No Zoom. No paperwork.</p>
+    <section class="panel stack">
+      <p class="kicker">stack</p>
+      <div class="chips">
+        <span>n8n</span><span>WhatsApp</span><span>Sheets</span><span>JS</span><span>AI</span>
       </div>
       <ol class="steps">
-        <li class="step cut-corner">
-          <span class="step-num mono">01</span>
-          <h3>Brief</h3>
-          <p>Handle, contact, package, and what you need — via the order form.</p>
-        </li>
-        <li class="step cut-corner">
-          <span class="step-num mono">02</span>
-          <h3>Pay</h3>
-          <p>Send USDT or XRP. Include your handle in the memo when possible.</p>
-        </li>
-        <li class="step cut-corner">
-          <span class="step-num mono">03</span>
-          <h3>Build</h3>
-          <p>FREECANDY ships a working deliverable — usually within a few days.</p>
-        </li>
-        <li class="step cut-corner">
-          <span class="step-num mono">04</span>
-          <h3>Handoff</h3>
-          <p>Files, deploy notes, and one polish pass if needed.</p>
-        </li>
+        <li><em>01</em> Brief</li>
+        <li><em>02</em> Pay</li>
+        <li><em>03</em> Build</li>
+        <li><em>04</em> Handoff</li>
       </ol>
-    </section>
-
-    <!-- CRYPTO -->
-    <section id="crypto" class="section">
-      <div class="section-head">
-        <p class="section-tag mono">// PAYLOAD</p>
-        <h2>Crypto payment</h2>
-        <p>Pay USDT (TRC20) or XRP. XRP requires destination tag <strong>6421912</strong>.</p>
-      </div>
-      <div class="wallet-grid">
-        <div class="wallet-card cut-corner">
-          <div class="wallet-label mono">USDT · TRC20 · PREFERRED</div>
-          <code class="wallet-addr" id="wallet-usdt">TSTtvBTt8qrDE5fFoAp3DzqW58H8dfYwhV</code>
-          <button type="button" class="btn btn-sm btn-ghost copy-btn" data-copy="wallet-usdt">Copy address</button>
-        </div>
-        <div class="wallet-card cut-corner">
-          <div class="wallet-label mono">XRP</div>
-          <code class="wallet-addr" id="wallet-xrp">rBuZfn1m4tA6znziHsRp9AyC1M3qg6rgbF</code>
-          <button type="button" class="btn btn-sm btn-ghost copy-btn" data-copy="wallet-xrp">Copy address</button>
-          <div class="wallet-memo-warn">
-            <strong>Destination tag / memo required</strong>
-            <code id="wallet-xrp-memo">6421912</code>
-            <button type="button" class="btn btn-sm btn-ghost copy-btn" data-copy="wallet-xrp-memo">Copy memo</button>
-            <p class="memo-danger">Include memo <strong>6421912</strong> on every XRP payment or funds may be lost.</p>
-          </div>
-        </div>
-      </div>
-      <p class="crypto-hint">After payment, submit the order form so FREECANDY can match your tx to your brief.</p>
-    </section>
-
-    <!-- ORDER -->
-    <section id="order" class="section">
-      <div class="section-head">
-        <p class="section-tag mono">// INITIATE QUEST</p>
-        <h2>Order</h2>
-        <p>Submit → success message + mailto or copy summary.</p>
-      </div>
-      <form id="order-form" class="order-form cut-corner" novalidate>
-        <div class="field">
-          <label for="handle">Handle / alias</label>
-          <input id="handle" name="handle" type="text" placeholder="@yourhandle" required maxlength="64" autocomplete="username" />
-        </div>
-        <div class="field">
-          <label for="contact">Contact (Telegram / email)</label>
-          <input id="contact" name="contact" type="text" placeholder="@telegram or you@mail.com" required maxlength="120" />
-        </div>
-        <div class="field">
-          <label for="package">Package</label>
-          <select id="package" name="package" required>
-            <option value="">Select a package</option>
-            <option value="WhatsApp/Telegram bots from $99">WhatsApp/Telegram bots from $99</option>
-            <option value="Landing pages from $79">Landing pages from $79</option>
-            <option value="Gmail/Sheets/Drive automations from $149">Gmail/Sheets/Drive automations from $149</option>
-            <option value="n8n / Make.com workflows from $149">n8n / Make.com workflows from $149</option>
-            <option value="Custom AI chat apps / agents from $199">Custom AI chat apps / agents from $199</option>
-            <option value="Web mini-games / pixel experiences from $129">Web mini-games / pixel experiences from $129</option>
-            <option value="AI 3D asset packs from $99">AI 3D asset packs from $99</option>
-            <option value="Defensive cyber learning / CTF writeups from $79">Defensive cyber learning / CTF writeups from $79</option>
-            <option value="Discord/community bots from $99">Discord/community bots from $99</option>
-            <option value="Lead systems from $119">Lead systems from $119</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="brief">Brief</label>
-          <textarea id="brief" name="brief" rows="5" placeholder="What should FREECANDY build? Goals, links, deadline…" required maxlength="2000"></textarea>
-        </div>
-        <div class="form-actions">
-          <button type="submit" class="btn btn-neon">Submit order</button>
-          <button type="button" id="copy-summary" class="btn btn-ghost">Copy summary</button>
-        </div>
-      </form>
-      <div id="order-success" class="order-success cut-corner" hidden>
-        <h3>Order ready</h3>
-        <p>Your summary is prepared. Open the email draft or paste the copied text to FREECANDY.</p>
-        <a id="mailto-link" class="btn btn-neon" href="#">Open email to freecandy.dev@gmail.com</a>
-        <pre id="order-preview" class="order-preview"></pre>
+      <div class="pay">
+        <button type="button" class="addr" data-copy="TSTtvBTt8qrDE5fFoAp3DzqW58H8dfYwhV">USDT TRC20 · copy</button>
+        <button type="button" class="addr" data-copy="rBuZfn1m4tA6znziHsRp9AyC1M3qg6rgbF">XRP · copy</button>
+        <button type="button" class="addr memo" data-copy="6421912">XRP memo 6421912</button>
       </div>
     </section>
 
-    <!-- DEMOS -->
-    <section id="demos" class="section demos-strip">
-      <div class="section-head">
-        <p class="section-tag mono">// DEMO REELS</p>
-        <h2>Demos</h2>
-        <p>Optional samples — same stack you’ll get.</p>
+    <form class="panel order" id="order-form">
+      <p class="kicker">order</p>
+      <label>Handle<input id="handle" name="handle" required maxlength="64" placeholder="@you" autocomplete="username" /></label>
+      <label>Contact<input id="contact" name="contact" required maxlength="120" placeholder="telegram or email" /></label>
+      <label>Job
+        <select id="package" name="package" required>
+          <option value="">Select</option>
+          <option>WhatsApp/Telegram bot from $99</option>
+          <option>Landing page from $79</option>
+          <option>Automation / n8n from $149</option>
+        </select>
+      </label>
+      <label>Brief<input id="brief" name="brief" required maxlength="400" placeholder="what to build" /></label>
+      <div class="row">
+        <button class="go" type="submit">Send brief</button>
+        <button class="ghost" type="button" id="copy-summary">Copy</button>
       </div>
-      <div class="demo-links">
-        <a href="demos/bot.html" class="demo-link cut-corner">
-          <span>FAQ chatbot</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="demos/landing.html" class="demo-link cut-corner">
-          <span>Café landing</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="demos/automation.html" class="demo-link cut-corner">
-          <span>Gmail → Sheets</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="footer-brand">FREECANDY</div>
-    <p>Anonymous AI freelancer · Crypto only · No real names</p>
-    <p class="footer-mail"><a href="mailto:freecandy.dev@gmail.com">freecandy.dev@gmail.com</a></p>
-    <p class="footer-legal mono">Legitimate client work only · No malware · No unauthorized access · Edu cyber content only</p>
-    <p class="footer-copy">© FREECANDY · Static storefront · Ship fast</p>
-  </footer>
-
+      <p class="note" id="order-note" hidden></p>
+    </form>
+  </div>
   <script src="app.js"></script>
 </body>
 </html>
