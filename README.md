@@ -1,65 +1,87 @@
-# FREECANDY storefront
+# FREECANDY
 
-Static freelance storefront for **FREECANDY** — anonymous AI freelancer (bots, landings, automations). Dark theme, mobile-first, no build step.
+### Anonymous AI freelancer · Ship fast · Pay in crypto
 
-## Files
+> Sharp bots. Conversion landings. Real automations.  
+> No Zoom theater. No real names. Just results.
 
-| Path | Purpose |
-|------|---------|
-| `index.html` | Main storefront (packages, crypto, order form) |
-| `styles.css` | Shared dark UI |
-| `app.js` | Order form → mailto / copy summary; wallet copy buttons |
-| `demos/bot.html` | Working FAQ chatbot demo |
-| `demos/landing.html` | Sample café landing |
-| `demos/automation.html` | Gmail → Sheets flow explainer |
-| `COPY.md` | Fiverr + Upwork gig copy |
+### 🌐 Live storefront
 
-## Enable on GitHub Pages
+**→ [https://freecandy-dev.github.io/freecandy-storefront/](https://freecandy-dev.github.io/freecandy-storefront/)**
 
-1. Create a new GitHub repository (public or private with Pages enabled).
-2. Upload this folder (or push the files) — **do not** leave secrets in git beyond the public payout wallets you choose to publish.
-3. Repo **Settings → Pages**.
-4. Under **Build and deployment**, set **Source** to **Deploy from a branch**.
-5. Branch: `main` (or `master`), folder: `/ (root)`.
-6. Save. After a minute, open `https://<user>.github.io/<repo>/`.
-7. Optional: add a custom domain under Pages → Custom domain.
+Open it, click the demos, order a package. That’s the product.
 
-Local preview (optional):
+---
+
+## What FREECANDY builds
+
+| Package | From | You get |
+|--------|------|--------|
+| **Bot** | $99 | FAQ / support chatbot (web or Telegram-ready) |
+| **Landing** | $79 | Mobile-first page ready to deploy |
+| **Automation** | $149 | Gmail ↔ Sheets / Drive-style workflows with handoff docs |
+
+Typical turnaround: **48–96 hours** after scope lock.  
+Payment: **USDT (TRC20)** or **XRP** (destination tag required on XRP — shown on the site).
+
+Hebrew-friendly too: *כלים חכמים. משלוח מהיר. תשלום בקריפטו.*
+
+---
+
+## Try before you buy
+
+Click through the live demos on the site:
+
+- [FAQ chatbot](https://freecandy-dev.github.io/freecandy-storefront/demos/bot.html)
+- [Café landing](https://freecandy-dev.github.io/freecandy-storefront/demos/landing.html)
+- [Gmail → Sheets flow](https://freecandy-dev.github.io/freecandy-storefront/demos/automation.html)
+
+---
+
+## How an order works
+
+1. **Brief** — handle, contact, package, what you need  
+2. **Pay** — crypto wallets on the storefront  
+3. **Build** — FREECANDY ships a working deliverable  
+4. **Handoff** — files + deploy notes + one polish pass  
+
+No calls required. Async only.
+
+---
+
+## Repo map (for builders)
+
+| Path | What it is |
+|------|------------|
+| `index.html` | Storefront |
+| `styles.css` | Dark, mobile-first UI |
+| `app.js` | Order form + copy helpers |
+| `demos/` | Clickable samples |
+| `COPY.md` | Marketplace / outreach paste copy |
+
+Local preview:
 
 ```bash
-cd freecandy-storefront
 python3 -m http.server 8080
-# open http://localhost:8080
+# → http://localhost:8080
 ```
 
-## Wallets (already baked into `index.html`)
+---
 
-These are the live payout addresses shown on the storefront:
+## Brand rules
 
-| Asset | Address / detail |
-|-------|------------------|
-| **USDT (TRC20)** | `TSTtvBTt8qrDE5fFoAp3DzqW58H8dfYwhV` |
-| **XRP address** | `rBuZfn1m4tA6znziHsRp9AyC1M3qg6rgbF` |
-| **XRP destination tag** | `6421912` (**required** — without it, funds may be lost) |
+- Public face = **FREECANDY** only (no personal legal names on the site)
+- Legitimate client work only — no malware, no unauthorized access, no shady tooling
+- Keep the vibe: professional enough for a business buyer, playful enough to remember
 
-If you ever rotate wallets, update:
+---
 
-- `index.html` crypto section (`#wallet-usdt`, `#wallet-xrp`, `#wallet-xrp-memo`)
-- `app.js` `buildSummary()` payment lines
-- this README table
-- `COPY.md` payment blurb
+## Links
 
-## Other placeholders to replace before marketing
+- **Website:** [freecandy-dev.github.io/freecandy-storefront](https://freecandy-dev.github.io/freecandy-storefront/)
+- **Repo:** [github.com/FREECANDY-DEV/freecandy-storefront](https://github.com/FREECANDY-DEV/freecandy-storefront)
+- **Orders:** freecandy.dev@gmail.com
 
-- Footer Telegram: replace `CONTACT_TELEGRAM` in `index.html` with your real `@handle`.
-- Confirm `freecandy.dev@gmail.com` is the inbox you monitor (order form mailto uses it).
+---
 
-## Brand notes
-
-- No real personal names on the site.
-- No illegal / hacking content — legitimate freelance AI tools & automations only.
-- Hebrew one-liner CTA is on the hero for IL audience reach.
-
-## License
-
-Use freely for FREECANDY freelancing. Keep the brand anonymous.
+<p align="center"><strong>FREECANDY</strong> — built different. Delivered fast.</p>
