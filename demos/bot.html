@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FREECANDY Demo — FAQ Chatbot</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    .chat-shell {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      min-height: 420px;
+      max-height: 70vh;
+    }
+    .chat-head {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .chat-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent); box-shadow: 0 0 12px var(--accent);
+    }
+    .chat-head strong { display: block; }
+    .chat-head span { color: var(--muted); font-size: 0.82rem; }
+    .chat-log {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .bubble {
+      max-width: 85%;
+      padding: 0.7rem 0.9rem;
+      border-radius: 14px;
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+    .bubble.bot {
+      align-self: flex-start;
+      background: #0c0e14;
+      border: 1px solid var(--border);
+    }
+    .bubble.user {
+      align-self: flex-end;
+      background: var(--accent-dim);
+      border: 1px solid rgba(124, 255, 178, 0.25);
+      color: var(--text);
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      padding: 0 1rem 0.75rem;
+    }
+    .chip {
+      border: 1px solid var(--border-strong);
+      background: transparent;
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 0.35rem 0.7rem;
+      font: inherit;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+    .chip:hover { color: var(--accent); border-color: var(--accent); }
+    .chat-form {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+    .chat-form input {
+      flex: 1;
+      border-radius: 999px;
+      border: 1px solid var(--border-strong);
+      background: #0c0e14;
+      color: var(--text);
+      padding: 0.7rem 1rem;
+      font: inherit;
+    }
+    .chat-form button {
+      border-radius: 999px;
+      border: none;
+      background: var(--accent);
+      color: #04140c;
+      font-weight: 700;
+      padding: 0 1.1rem;
+      cursor: pointer;
+      font: inherit;
+    }
+  </style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="demo-page">
+    <a class="demo-back" href="../index.html">← Back to FREECANDY</a>
+    <h1>FAQ chatbot demo</h1>
+    <p style="color:var(--muted);margin-top:0">Vanilla JS sample — ask about pricing, crypto, turnaround, or packages.</p>
+
+    <div class="chat-shell" id="chat">
+      <div class="chat-head">
+        <span class="chat-dot" aria-hidden="true"></span>
+        <div>
+          <strong>FREECANDY Bot</strong>
+          <span>Online · demo only</span>
+        </div>
+      </div>
+      <div class="chat-log" id="log" aria-live="polite"></div>
+      <div class="chips" id="chips"></div>
+      <form class="chat-form" id="form">
+        <input id="input" type="text" placeholder="Ask a question…" autocomplete="off" maxlength="240" />
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const FAQ = [
+        { keys: ["price", "cost", "how much", "pricing", "package"], answer: "Packages start at Landing $79, Bot $99, Automation $149. Pay with USDT (TRC20) or XRP (memo 6421912 required)." },
+        { keys: ["crypto", "usdt", "xrp", "pay", "payment", "wallet"], answer: "FREECANDY accepts USDT TRC20 and XRP. For XRP you MUST include destination tag 6421912 or funds may be lost." },
+        { keys: ["time", "turnaround", "fast", "delivery", "how long"], answer: "Typical turnaround is 48–96 hours after payment + clear brief. Rush possible depending on scope." },
+        { keys: ["anonymous", "name", "who", "identity"], answer: "FREECANDY is an anonymous AI freelancer brand — no real names, no calls, crypto handoff." },
+        { keys: ["telegram", "contact", "email"], answer: "Order via the storefront form or email freecandy.dev@gmail.com. Telegram handle is listed as CONTACT_TELEGRAM on the main site until you set it." },
+        { keys: ["bot", "chatbot", "faq"], answer: "The Bot package covers FAQ/support bots for web or Telegram-ready flows — like this demo, customized to your content." },
+        { keys: ["landing", "website", "page"], answer: "Landing pages are static, mobile-first, and GitHub Pages ready — from $79." },
+        { keys: ["automation", "gmail", "sheets", "workflow"], answer: "Automation package (from $149) covers flows like Gmail → Google Sheets with clear handoff docs." },
+        { keys: ["hello", "hi", "hey"], answer: "Hey — I’m the FREECANDY FAQ demo. Ask about packages, crypto, or delivery speed." },
+        { keys: ["help"], answer: "Try: pricing, crypto payment, turnaround, bots, landings, or automations." }
+      ];
+      const SUGGEST = ["Pricing?", "Crypto payment", "Turnaround", "Bot package"];
+
+      const log = document.getElementById("log");
+      const form = document.getElementById("form");
+      const input = document.getElementById("input");
+      const chips = document.getElementById("chips");
+
+      function add(role, text) {
+        const b = document.createElement("div");
+        b.className = "bubble " + role;
+        b.textContent = text;
+        log.appendChild(b);
+        log.scrollTop = log.scrollHeight;
+      }
+
+      function reply(q) {
+        const lower = q.toLowerCase();
+        for (let i = 0; i < FAQ.length; i++) {
+          if (FAQ[i].keys.some(function (k) { return lower.indexOf(k) !== -1; })) {
+            return FAQ[i].answer;
+          }
+        }
+        return "Not sure yet — try asking about pricing, USDT/XRP, turnaround, or which package fits. Or order from the main storefront.";
+      }
+
+      SUGGEST.forEach(function (label) {
+        const c = document.createElement("button");
+        c.type = "button";
+        c.className = "chip";
+        c.textContent = label;
+        c.addEventListener("click", function () {
+          add("user", label);
+          setTimeout(function () { add("bot", reply(label)); }, 280);
+        });
+        chips.appendChild(c);
+      });
+
+      add("bot", "Hi — FREECANDY FAQ demo. Ask about bots, landings, automations, or crypto payment.");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const q = input.value.trim();
+        if (!q) return;
+        add("user", q);
+        input.value = "";
+        setTimeout(function () { add("bot", reply(q)); }, 320);
+      });
+    })();
+  </script>
+</body>
+</html>
