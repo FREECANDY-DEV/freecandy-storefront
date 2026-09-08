@@ -1,63 +1,35 @@
 const clock = document.getElementById("clock");
-const tick = () => {
-  const d = new Date();
-  clock.textContent = d.toLocaleTimeString("en-GB", { hour12: false });
-};
-tick();
-setInterval(tick, 1000);
+setInterval(() => { clock.textContent = new Date().toLocaleTimeString("en-GB", { hour12: false }); }, 1000);
+document.getElementById("clock").textContent = new Date().toLocaleTimeString("en-GB", { hour12: false });
+
+const walletBtn = document.getElementById("wallet-btn");
+const wallet = document.getElementById("wallet-panel");
+walletBtn.addEventListener("click", () => {
+  const open = wallet.hasAttribute("hidden");
+  wallet.toggleAttribute("hidden", !open);
+  walletBtn.setAttribute("aria-expanded", String(open));
+});
 
 document.querySelectorAll("[data-copy]").forEach((btn) => {
-  btnClick(btn, async () => {
+  btn.addEventListener("click", async () => {
     await navigator.clipboard.writeText(btn.dataset.copy);
     const old = btn.textContent;
     btn.textContent = "copied";
-    btn.classList.add("copied");
-    setTimeout(() => { btn.textContent = old; btn.classList.remove("copied"); }, 900);
+    setTimeout(() => { btn.textContent = old; }, 800);
   });
 });
 
-function summary() {
-  return [
+document.getElementById("order-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const body = encodeURIComponent([
     "FREECANDY order",
     "handle: " + document.getElementById("handle").value.trim(),
     "contact: " + document.getElementById("contact").value.trim(),
     "job: " + document.getElementById("package").value,
     "brief: " + document.getElementById("brief").value.trim()
-  ].join("\n");
-}
-
-function btnClick(el, fn) { el.addEventListener("click", (e) => { e.preventDefault(); fn(); }); }
-
-document.getElementById("copy-summary").addEventListener("click", async () => {
-  const form = document.getElementById("order-form");
-  if (!form.reportValidity()) return;
-  await navigator.clipboard.writeText(summary());
+  ].join("\n"));
+  window.location.href = "mailto:freecandy.dev@gmail.com?subject=" + encodeURIComponent("FREECANDY order") + "&body=" + body;
   const note = document.getElementById("order-note");
   note.hidden = false;
-  note.textContent = "Copied. Paste it to FREECANDY.";
+  note.textContent = "Email draft opened. Use the wallet for USDT or XRP.";
 });
-
-document.getElementById("order-form").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const body = encodeURIComponent(summary());
-  const subject = encodeURIComponent("FREECANDY order");
-  window.location.href = "mailto:freecandy.dev@gmail.com?subject=" + subject + "&body=" + body;
-  const note = document.getElementById("order-note");
-  note.hidden = false;
-  note.textContent = "Email draft opened. USDT preferred. XRP needs memo 6421912.";
-});
-
-function fit() {
-  const screen = document.getElementById("screen");
-  screen.style.transform = "";
-  screen.style.width = "";
-  const extra = screen.scrollHeight - window.innerHeight;
-  if (extra > 2) {
-    const scale = Math.max(0.72, window.innerHeight / screen.scrollHeight);
-    screen.style.transform = "scale(" + scale.toFixed(3) + ")";
-    screen.style.transformOrigin = "top center";
-    screen.style.width = (100 / scale).toFixed(2) + "%";
-  }
-}
-window.addEventListener("resize", fit);
-window.addEventListener("load", fit);
