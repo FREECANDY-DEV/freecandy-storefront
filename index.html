@@ -12,82 +12,99 @@
     #stars { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; }
     .stage { position: relative; z-index: 1; height: 100%; height: 100dvh; }
     .mark {
-      position: absolute; top: max(12px, env(safe-area-inset-top)); left: 16px; z-index: 8;
-      color: #f3eee6; text-decoration: none; letter-spacing: .22em; font-size: 14px;
+      position: absolute; top: max(10px, env(safe-area-inset-top)); left: 14px; z-index: 8;
+      color: #f3eee6; text-decoration: none; letter-spacing: .22em; font-size: 13px;
+    }
+    .stack {
+      position: absolute; left: 50%; top: 42%;
+      width: min(360px, 94vw);
+      transform: translate(-50%, -50%);
+      z-index: 5;
     }
     .carousel {
-      position: absolute; left: 50%; top: 10%;
-      width: min(360px, 94vw); height: 150px;
-      transform: translateX(-50%);
-      z-index: 6; touch-action: pan-y;
+      position: relative; width: 100%; height: 120px;
+      touch-action: pan-y;
     }
     .ghost {
       position: absolute; left: 50%; top: 50%;
-      width: 84px; height: 84px;
-      margin: -42px 0 0 -42px;
+      width: 88px; height: 104px;
+      margin: -44px 0 0 -44px;
       border: 0; padding: 0; background: transparent;
       cursor: pointer; -webkit-tap-highlight-color: transparent;
       will-change: transform, opacity;
     }
     .ghost img {
-      width: 84px; height: 84px;
+      width: 72px; height: 72px;
       aspect-ratio: 1 / 1;
       object-fit: contain;
       display: block;
+      margin: 0 auto;
       image-rendering: pixelated;
       pointer-events: none;
-      filter: drop-shadow(0 12px 14px rgba(0,0,0,.6));
+      filter: drop-shadow(0 10px 12px rgba(0,0,0,.55));
+      background: transparent;
     }
-    .hint {
-      position: absolute; left: 50%; top: calc(10% + 152px);
-      transform: translateX(-50%);
-      margin: 0; color: rgba(243,238,230,.5);
-      font-size: 11px; letter-spacing: .16em; text-transform: uppercase; z-index: 5;
+    .ghost span {
+      display: block; margin-top: 2px;
+      font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+      color: #f3eee6; text-align: center;
+      white-space: nowrap;
+      animation: spinText 6s linear infinite;
+      text-shadow: 0 1px 4px #000;
+    }
+    @keyframes spinText {
+      from { transform: rotateY(0deg); }
+      to { transform: rotateY(360deg); }
     }
     .reaper-hit {
-      position: absolute; left: 50%; top: 62%; z-index: 3;
-      width: min(230px, 58vw); height: min(300px, 46vh);
-      transform: translate(-50%, -50%);
+      display: block; margin: -8px auto 0;
+      width: min(210px, 54vw); height: min(270px, 40vh);
       background: none; border: 0; padding: 0; cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      outline: none; user-select: none;
+      appearance: none;
     }
+    .reaper-hit:focus, .reaper-hit:active { outline: none; background: transparent; }
     .reaper { width: 100%; height: 100%; object-fit: contain; display: block; pointer-events: none; }
     .slash-fx {
-      position: fixed; inset: 0; z-index: 20; pointer-events: none;
-      opacity: 0;
+      position: fixed; inset: 0; z-index: 20; pointer-events: none; opacity: 0;
+      perspective: 900px;
     }
-    .slash-fx.on { animation: screenSlash .42s ease-out; }
-    .slash-fx::before, .slash-fx::after {
-      content: ""; position: absolute; left: -10%; top: 48%;
-      width: 120%; height: 3px;
-      background: linear-gradient(90deg, transparent, #fff6e4 18%, #fff 50%, #fff6e4 82%, transparent);
-      box-shadow: 0 0 12px 2px rgba(255,246,228,.85), 0 0 28px 6px rgba(255,246,228,.35);
+    .slash-fx.on { opacity: 1; }
+    .blade {
+      position: absolute; left: 50%; top: 50%;
+      width: 140vmax; height: 3px;
+      margin-left: -70vmax; margin-top: -1px;
+      background: linear-gradient(90deg, transparent 0%, #fff6e4 12%, #fff 48%, #fff6e4 88%, transparent 100%);
+      box-shadow:
+        0 0 10px 2px rgba(255,246,228,.9),
+        0 0 28px 8px rgba(255,246,228,.35),
+        0 8px 18px rgba(0,0,0,.35);
       transform-origin: center;
+      opacity: 0;
+      border-radius: 2px;
     }
-    .slash-fx::before { transform: rotate(-28deg) scaleX(.1); }
-    .slash-fx::after {
-      top: 50%; height: 1px; opacity: .7;
-      transform: rotate(-28deg) translateY(10px) scaleX(.1);
+    .blade.soft {
+      height: 1px; opacity: 0;
+      filter: blur(0.4px);
+      box-shadow: 0 0 14px 4px rgba(255,246,228,.45);
     }
-    @keyframes screenSlash {
-      0% { opacity: 0; }
-      12% { opacity: 1; }
-      100% { opacity: 0; }
+    .slash-fx.on .blade.main { animation: blade3d .4s ease-out forwards; }
+    .slash-fx.on .blade.soft { animation: blade3dSoft .4s ease-out forwards; }
+    @keyframes blade3d {
+      0% { opacity: 0; transform: rotate(var(--a)) rotateX(58deg) scaleX(.08) translateZ(-40px); }
+      28% { opacity: 1; transform: rotate(var(--a)) rotateX(18deg) scaleX(1) translateZ(20px); }
+      100% { opacity: 0; transform: rotate(var(--a)) rotateX(8deg) scaleX(1.08) translateZ(40px); }
     }
-    .slash-fx.on::before { animation: blade .42s ease-out; }
-    .slash-fx.on::after { animation: bladeSoft .42s ease-out; }
-    @keyframes blade {
-      0% { transform: rotate(-28deg) scaleX(.08); }
-      35% { transform: rotate(-28deg) scaleX(1); }
-      100% { transform: rotate(-28deg) scaleX(1.05); }
-    }
-    @keyframes bladeSoft {
-      0% { transform: rotate(-28deg) translateY(10px) scaleX(.08); }
-      35% { transform: rotate(-28deg) translateY(10px) scaleX(1); }
-      100% { transform: rotate(-28deg) translateY(10px) scaleX(1.05); }
+    @keyframes blade3dSoft {
+      0% { opacity: 0; transform: rotate(var(--a)) rotateX(58deg) translateY(12px) scaleX(.08) translateZ(-40px); }
+      28% { opacity: .7; transform: rotate(var(--a)) rotateX(18deg) translateY(12px) scaleX(1) translateZ(20px); }
+      100% { opacity: 0; transform: rotate(var(--a)) rotateX(8deg) translateY(12px) scaleX(1.08) translateZ(40px); }
     }
     .menu {
       position: absolute; z-index: 9; left: 12px; right: 12px; bottom: 14px;
-      max-height: 36vh; overflow: auto;
+      max-height: 34vh; overflow: auto;
       background: rgba(0,0,0,.92); border: 1px solid rgba(243,238,230,.2); padding: 14px;
     }
     .menu h2 { margin: 0 0 8px; font-weight: 500; font-size: 26px; }
@@ -104,19 +121,32 @@
 </head>
 <body>
   <canvas id="stars"></canvas>
-  <div class="slash-fx" id="slash-fx"></div>
+  <div class="slash-fx" id="slash-fx"><div class="blade main"></div><div class="blade soft"></div></div>
   <div class="stage">
     <a class="mark" href="https://github.com/FREECANDY-DEV">FREECANDY</a>
-    <div class="carousel" id="carousel">
-      <button class="ghost" type="button" data-panel="svc" data-i="0" aria-label="Services"><img src="assets/ghost-svc.jpg?v=31" width="84" height="84" alt="" /></button>
-      <button class="ghost" type="button" data-panel="arc" data-i="1" aria-label="Archive"><img src="assets/ghost-arc.jpg?v=31" width="84" height="84" alt="" /></button>
-      <button class="ghost" type="button" data-panel="talk" data-i="2" aria-label="Contact"><img src="assets/ghost-talk.jpg?v=31" width="84" height="84" alt="" /></button>
-      <button class="ghost" type="button" data-panel="pay" data-i="3" aria-label="Deposit"><img src="assets/ghost-pay.jpg?v=31" width="84" height="84" alt="" /></button>
+    <div class="stack">
+      <div class="carousel" id="carousel">
+        <button class="ghost" type="button" data-panel="svc" data-i="0" aria-label="Services">
+          <img src="assets/ghost-svc.png?v=32" width="72" height="72" alt="" />
+          <span>Services</span>
+        </button>
+        <button class="ghost" type="button" data-panel="arc" data-i="1" aria-label="Archive">
+          <img src="assets/ghost-arc.png?v=32" width="72" height="72" alt="" />
+          <span>Archive</span>
+        </button>
+        <button class="ghost" type="button" data-panel="talk" data-i="2" aria-label="Contact">
+          <img src="assets/ghost-talk.png?v=32" width="72" height="72" alt="" />
+          <span>Contact</span>
+        </button>
+        <button class="ghost" type="button" data-panel="pay" data-i="3" aria-label="Deposit">
+          <img src="assets/ghost-pay.png?v=32" width="72" height="72" alt="" />
+          <span>Deposit</span>
+        </button>
+      </div>
+      <button class="reaper-hit" id="reaper-hit" type="button" aria-label="Reaper">
+        <img class="reaper" src="assets/reaper.jpg?v=32" alt="" />
+      </button>
     </div>
-    <p class="hint">swipe the circle</p>
-    <button class="reaper-hit" id="reaper-hit" type="button" aria-label="Reaper">
-      <img class="reaper" src="assets/reaper.jpg?v=31" alt="" />
-    </button>
     <section class="menu" id="svc" hidden>
       <h2>Services</h2>
       <ul>
@@ -186,15 +216,15 @@
     const count = ghosts.length;
     let angle = 0;
     function layout() {
-      const rx = Math.min(window.innerWidth * 0.38, 140);
-      const ry = 48;
+      const rx = Math.min(window.innerWidth * 0.36, 128);
+      const ry = 34;
       ghosts.forEach((g, i) => {
         const a = (i / count) * Math.PI * 2 + angle;
         const x = Math.sin(a) * rx;
         const y = Math.cos(a) * ry;
         const depth = (Math.cos(a) + 1) / 2;
-        const scale = 0.55 + depth * 0.9;
-        const opacity = 0.3 + depth * 0.7;
+        const scale = 0.55 + depth * 0.85;
+        const opacity = 0.28 + depth * 0.72;
         g.style.transform = "translate(" + x + "px," + y + "px) scale(" + scale + ")";
         g.style.opacity = String(opacity);
         g.style.zIndex = String(Math.round(20 + depth * 50));
@@ -255,11 +285,13 @@
     let slashTimer = 0;
     hit.addEventListener("pointerdown", (e) => {
       e.preventDefault();
+      const a = (Math.random() * 140 - 70).toFixed(1) + "deg";
+      slashFx.style.setProperty("--a", a);
       slashFx.classList.remove("on");
       void slashFx.offsetWidth;
       slashFx.classList.add("on");
       clearTimeout(slashTimer);
-      slashTimer = setTimeout(() => slashFx.classList.remove("on"), 450);
+      slashTimer = setTimeout(() => slashFx.classList.remove("on"), 420);
     });
 
     document.querySelectorAll("[data-copy]").forEach((btn) => {
