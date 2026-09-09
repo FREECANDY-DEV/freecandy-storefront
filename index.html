@@ -14,28 +14,43 @@
       position: absolute; top: max(12px, env(safe-area-inset-top)); left: 16px; z-index: 6;
       color: #f3eee6; text-decoration: none; letter-spacing: .22em; font-size: 14px;
     }
-    .reaper {
-      position: absolute; left: 50%; top: 48%;
-      width: min(240px, 62vw); height: min(320px, 48vh);
+    .reaper-hit {
+      position: absolute; left: 50%; top: 48%; z-index: 3;
+      width: min(230px, 58vw); height: min(300px, 46vh);
       transform: translate(-50%, -50%);
-      object-fit: contain; object-position: center;
-      pointer-events: none; z-index: 2;
+      background: none; border: 0; padding: 0; cursor: pointer;
+    }
+    .reaper { width: 100%; height: 100%; object-fit: contain; display: block; pointer-events: none; }
+    .slash {
+      position: absolute; left: 12%; top: 18%; width: 78%; height: 42%;
+      border-top: 2px solid rgba(255, 248, 230, 0.95);
+      border-radius: 50%; opacity: 0; pointer-events: none;
+      filter: drop-shadow(0 0 6px rgba(255,248,230,.7));
+    }
+    .reaper-hit.slashing .reaper { animation: swing .45s ease-out; }
+    .reaper-hit.slashing .slash { animation: cut .45s ease-out; }
+    @keyframes swing {
+      0% { transform: rotate(0deg); }
+      28% { transform: rotate(-12deg) translate(-6%, -2%); }
+      100% { transform: rotate(0deg); }
+    }
+    @keyframes cut {
+      0% { opacity: 0; transform: rotate(-42deg) scaleX(.12); }
+      32% { opacity: 1; transform: rotate(-6deg) scaleX(1); }
+      100% { opacity: 0; transform: rotate(16deg) scaleX(1.08); }
     }
     .ghost {
       position: absolute; z-index: 4;
-      width: 56px; height: 56px; padding: 0; border: 0;
-      background-color: transparent;
-      background-image: url("assets/ghosts.jpg?v=7");
-      background-repeat: no-repeat; background-size: 200% 200%;
-      cursor: pointer;
+      width: 64px; height: 64px; aspect-ratio: 1 / 1;
+      padding: 0; border: 0; background: transparent; cursor: pointer;
     }
-    .g-svc { left: max(8px, env(safe-area-inset-left)); top: 14%; background-position: 0 0; }
-    .g-arc { right: max(8px, env(safe-area-inset-right)); top: 16%; background-position: 100% 0; }
-    .g-talk { left: max(10px, env(safe-area-inset-left)); bottom: 8%; background-position: 0 100%; }
-    .g-pay { right: max(8px, env(safe-area-inset-right)); bottom: 8%; background-position: 100% 100%; }
+    .ghost img { width: 100%; height: 100%; object-fit: contain; display: block; pointer-events: none; }
+    .g-svc { left: max(8px, env(safe-area-inset-left)); top: 14%; }
+    .g-arc { right: max(8px, env(safe-area-inset-right)); top: 16%; }
+    .g-talk { left: max(10px, env(safe-area-inset-left)); bottom: 8%; }
+    .g-pay { right: max(8px, env(safe-area-inset-right)); bottom: 8%; }
     .menu {
-      position: absolute; z-index: 8;
-      left: 12px; right: 12px; bottom: 14px;
+      position: absolute; z-index: 8; left: 12px; right: 12px; bottom: 14px;
       max-height: 42vh; overflow: auto;
       background: rgba(0,0,0,.92); border: 1px solid rgba(243,238,230,.2); padding: 14px;
     }
@@ -49,17 +64,23 @@
       padding: 10px 0; font: inherit; cursor: pointer;
     }
     .menu small { display: block; color: #b7b1a6; font-size: 14px; }
+    @media (max-width: 700px) {
+      .ghost { width: 58px; height: 58px; }
+    }
   </style>
 </head>
 <body>
   <canvas id="stars"></canvas>
   <div class="stage">
     <a class="mark" href="https://github.com/FREECANDY-DEV">FREECANDY</a>
-    <img class="reaper" src="assets/reaper.jpg?v=7" alt="Pixel reaper" />
-    <button class="ghost g-svc" type="button" data-panel="svc" aria-label="Services"></button>
-    <button class="ghost g-arc" type="button" data-panel="arc" aria-label="Archive"></button>
-    <button class="ghost g-talk" type="button" data-panel="talk" aria-label="Contact"></button>
-    <button class="ghost g-pay" type="button" data-panel="pay" aria-label="Deposit"></button>
+    <button class="reaper-hit" id="reaper-hit" type="button" aria-label="Reaper">
+      <img class="reaper" src="assets/reaper.jpg?v=8" alt="" />
+      <span class="slash"></span>
+    </button>
+    <button class="ghost g-svc" type="button" data-panel="svc" aria-label="Services"><img src="assets/ghost-svc.jpg?v=8" alt="" /></button>
+    <button class="ghost g-arc" type="button" data-panel="arc" aria-label="Archive"><img src="assets/ghost-arc.jpg?v=8" alt="" /></button>
+    <button class="ghost g-talk" type="button" data-panel="talk" aria-label="Contact"><img src="assets/ghost-talk.jpg?v=8" alt="" /></button>
+    <button class="ghost g-pay" type="button" data-panel="pay" aria-label="Deposit"><img src="assets/ghost-pay.jpg?v=8" alt="" /></button>
     <section class="menu" id="svc" hidden>
       <h2>Services</h2>
       <ul>
@@ -91,40 +112,49 @@
   <script>
     const canvas = document.getElementById("stars");
     const ctx = canvas.getContext("2d");
-    let stars = [];
-    function makeStars() {
+    function drawStars() {
       const w = window.innerWidth;
       const h = window.innerHeight;
       canvas.width = w;
       canvas.height = h;
-      const n = Math.max(180, Math.min(340, Math.floor(w * h / 4500)));
-      stars = Array.from({length: n}, () => ({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        r: Math.random() < 0.12 ? Math.random() * 1.4 + 1.1 : Math.random() * 0.9 + 0.45,
-        a: Math.random() * 0.45 + 0.45,
-        s: Math.random() * 0.35 + 0.08,
-        p: Math.random() * Math.PI * 2
-      }));
-    }
-    function draw(t) {
-      const w = canvas.width, h = canvas.height;
       ctx.fillStyle = "#000";
       ctx.fillRect(0, 0, w, h);
-      for (const star of stars) {
-        star.y -= star.s;
-        if (star.y < -3) { star.y = h + 3; star.x = Math.random() * w; }
-        const tw = 0.5 + Math.sin(t * 0.003 + star.p) * 0.5;
-        ctx.fillStyle = "rgba(255,248,232," + (star.a * tw) + ")";
+      const n = Math.max(220, Math.min(420, Math.floor(w * h / 3200)));
+      for (let i = 0; i < n; i++) {
+        const x = Math.random() * w;
+        const y = Math.random() * h;
+        const bright = Math.random() < 0.08;
+        const r = bright ? Math.random() * 1.15 + 0.9 : Math.random() * 0.7 + 0.25;
+        const a = bright ? Math.random() * 0.35 + 0.6 : Math.random() * 0.4 + 0.18;
+        const cool = Math.random() < 0.22;
+        ctx.fillStyle = cool ? "rgba(214,224,255," + a + ")" : "rgba(255,248,236," + a + ")";
         ctx.beginPath();
-        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+        ctx.arc(x, y, r, 0, Math.PI * 2);
         ctx.fill();
+        if (bright && Math.random() < 0.45) {
+          ctx.strokeStyle = "rgba(255,248,236," + (a * 0.45) + ")";
+          ctx.lineWidth = 0.6;
+          ctx.beginPath();
+          ctx.moveTo(x - r * 3.4, y);
+          ctx.lineTo(x + r * 3.4, y);
+          ctx.moveTo(x, y - r * 3.4);
+          ctx.lineTo(x, y + r * 3.4);
+          ctx.stroke();
+        }
       }
-      requestAnimationFrame(draw);
     }
-    makeStars();
-    window.addEventListener("resize", makeStars);
-    requestAnimationFrame(draw);
+    drawStars();
+    window.addEventListener("resize", drawStars);
+    const hit = document.getElementById("reaper-hit");
+    let slashTimer = 0;
+    function slash() {
+      hit.classList.remove("slashing");
+      void hit.offsetWidth;
+      hit.classList.add("slashing");
+      clearTimeout(slashTimer);
+      slashTimer = setTimeout(() => hit.classList.remove("slashing"), 460);
+    }
+    hit.addEventListener("pointerdown", (e) => { e.preventDefault(); slash(); });
     const panels = [...document.querySelectorAll(".menu")];
     function closeAll() { panels.forEach((p) => { p.hidden = true; }); }
     document.querySelectorAll(".ghost").forEach((btn) => {
@@ -137,7 +167,7 @@
       });
     });
     document.addEventListener("click", (e) => {
-      if (!e.target.closest(".menu")) closeAll();
+      if (!e.target.closest(".menu") && !e.target.closest(".ghost")) closeAll();
     });
     document.querySelectorAll("[data-copy]").forEach((btn) => {
       btn.addEventListener("click", async (e) => {
