@@ -3,25 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="description" content="FREECANDY studio." />
   <meta name="theme-color" content="#000000" />
   <title>FREECANDY</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Outfit:wght@300;400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+    :root { --ink:#f4efe6; --muted:#b7b1a6; --line:rgba(244,239,230,.22); }
+    * { box-sizing:border-box; }
+    html, body { margin:0; min-height:100%; background:#000; color:var(--ink); font-family:Georgia, "Times New Roman", serif; }
+    #stars { position:fixed; inset:0; width:100%; height:100%; z-index:0; display:block; }
+    .stage { position:relative; z-index:1; min-height:100vh; }
+    .mark {
+      position:absolute; top:18px; left:18px; z-index:6;
+      color:var(--ink); text-decoration:none; letter-spacing:.22em; font-size:18px;
+    }
+    .reaper {
+      position:absolute; left:50%; top:48%;
+      width:min(340px, 72vw); height:min(72vh, 560px);
+      transform:translate(-50%, -50%);
+      object-fit:cover; object-position:22% center;
+      pointer-events:none;
+    }
+    .ghost {
+      position:absolute; z-index:4; width:88px; height:88px; padding:0; border:0;
+      background-color:#000; background-image:url("assets/ghosts.jpg?v=5");
+      background-repeat:no-repeat; background-size:200% 200%; cursor:pointer;
+    }
+    .g-svc { left:6%; top:20%; background-position:0 0; }
+    .g-arc { right:6%; top:22%; background-position:100% 0; }
+    .g-talk { left:8%; bottom:12%; background-position:0 100%; }
+    .g-pay { right:7%; bottom:10%; background-position:100% 100%; }
+    .menu {
+      position:absolute; z-index:7; width:min(300px, calc(100vw - 28px));
+      background:#050505; border:1px solid var(--line); padding:16px;
+    }
+    .menu h2 { margin:0 0 8px; font-weight:500; font-size:28px; }
+    .menu p, .menu li { color:var(--muted); }
+    .menu ul { margin:8px 0 0; padding:0; list-style:none; }
+    .menu a, .menu button {
+      color:var(--ink); text-decoration:none; display:block; width:100%;
+      text-align:left; background:transparent; border:0; border-top:1px solid var(--line);
+      padding:10px 0; font:inherit; cursor:pointer;
+    }
+    .menu small { display:block; color:var(--muted); font-size:14px; }
+    #svc { left:16px; top:32%; }
+    #arc { right:16px; top:34%; }
+    #talk { left:16px; bottom:24%; }
+    #pay { right:16px; bottom:22%; }
+    @media (max-width:700px) {
+      .ghost { width:72px; height:72px; }
+      .reaper { width:86vw; height:62vh; top:46%; }
+      .menu { left:14px !important; right:14px !important; width:auto; top:auto; bottom:18px; }
+    }
+  </style>
 </head>
 <body>
-  <canvas id="stars" aria-hidden="true"></canvas>
+  <canvas id="stars"></canvas>
   <div class="stage">
-    <a class="mark" href="https://github.com/FREECANDY-DEV" target="_blank" rel="noreferrer">FREECANDY</a>
-    <img class="reaper" src="assets/reaper.jpg" alt="Pixel reaper" />
-
-    <button class="ghost g-svc" type="button" data-panel="svc" aria-expanded="false" aria-controls="svc" aria-label="Services"></button>
-    <button class="ghost g-arc" type="button" data-panel="arc" aria-expanded="false" aria-controls="arc" aria-label="Archive"></button>
-    <button class="ghost g-talk" type="button" data-panel="talk" aria-expanded="false" aria-controls="talk" aria-label="Contact"></button>
-    <button class="ghost g-pay" type="button" data-panel="pay" aria-expanded="false" aria-controls="pay" aria-label="Deposit"></button>
-
+    <a class="mark" href="https://github.com/FREECANDY-DEV">FREECANDY</a>
+    <img class="reaper" src="assets/reaper.jpg?v=5" alt="Pixel reaper" />
+    <button class="ghost g-svc" type="button" data-panel="svc" aria-label="Services"></button>
+    <button class="ghost g-arc" type="button" data-panel="arc" aria-label="Archive"></button>
+    <button class="ghost g-talk" type="button" data-panel="talk" aria-label="Contact"></button>
+    <button class="ghost g-pay" type="button" data-panel="pay" aria-label="Deposit"></button>
     <section class="menu" id="svc" hidden>
       <h2>Services</h2>
       <ul>
@@ -30,29 +72,80 @@
         <li>Flows<small>from $149</small></li>
       </ul>
     </section>
-
     <section class="menu" id="arc" hidden>
       <h2>Archive</h2>
-      <a href="https://github.com/FREECANDY-DEV/pixel-world" target="_blank" rel="noreferrer">pixel-world</a>
-      <a href="https://github.com/FREECANDY-DEV/Deus" target="_blank" rel="noreferrer">Deus</a>
-      <a href="https://github.com/FREECANDY-DEV/Pro_Linux_Screen_control" target="_blank" rel="noreferrer">Screen control</a>
-      <a href="https://github.com/FREECANDY-DEV/TryHackMe-writeups" target="_blank" rel="noreferrer">Writeups</a>
+      <a href="https://github.com/FREECANDY-DEV/pixel-world">pixel-world</a>
+      <a href="https://github.com/FREECANDY-DEV/Deus">Deus</a>
+      <a href="https://github.com/FREECANDY-DEV/Pro_Linux_Screen_control">Screen control</a>
+      <a href="https://github.com/FREECANDY-DEV/TryHackMe-writeups">Writeups</a>
     </section>
-
     <section class="menu" id="talk" hidden>
       <h2>Contact</h2>
       <p>Message on Telegram.</p>
-      <a href="https://t.me/WIND0WSUPDATE" target="_blank" rel="noreferrer">@WIND0WSUPDATE</a>
+      <a href="https://t.me/WIND0WSUPDATE">@WIND0WSUPDATE</a>
     </section>
-
     <section class="menu" id="pay" hidden>
       <h2>Deposit</h2>
       <p>Tap to copy. XRP needs the memo.</p>
-      <button class="copy" type="button" data-copy="TSTtvBTt8qrDE5fFoAp3DzqW58H8dfYwhV" data-label="USDT TRC20">USDT TRC20</button>
-      <button class="copy" type="button" data-copy="rBuZfn1m4tA6znziHsRp9AyC1M3qg6rgbF" data-label="XRP address">XRP address</button>
-      <button class="copy" type="button" data-copy="6421912" data-label="XRP memo 6421912">XRP memo 6421912</button>
+      <button type="button" data-copy="TSTtvBTt8qrDE5fFoAp3DzqW58H8dfYwhV" data-label="USDT TRC20">USDT TRC20</button>
+      <button type="button" data-copy="rBuZfn1m4tA6znziHsRp9AyC1M3qg6rgbF" data-label="XRP address">XRP address</button>
+      <button type="button" data-copy="6421912" data-label="XRP memo 6421912">XRP memo 6421912</button>
     </section>
   </div>
-  <script src="app.js"></script>
+  <script>
+    const canvas = document.getElementById("stars");
+    const ctx = canvas.getContext("2d");
+    let stars = [];
+    function resize() {
+      canvas.width = innerWidth;
+      canvas.height = innerHeight;
+      const n = Math.min(280, Math.floor(canvas.width * canvas.height / 8000));
+      stars = Array.from({length:n}, () => ({
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height,
+        r: Math.random()*1.1+0.2,
+        a: Math.random()*0.55+0.2,
+        p: Math.random()*6.28
+      }));
+    }
+    function draw(t) {
+      ctx.fillStyle = "#000";
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      for (const s of stars) {
+        const tw = 0.7 + Math.sin(t*0.001 + s.p)*0.3;
+        ctx.fillStyle = "rgba(255,248,236,"+(s.a*tw)+")";
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, 6.28);
+        ctx.fill();
+      }
+      requestAnimationFrame(draw);
+    }
+    resize();
+    addEventListener("resize", resize);
+    requestAnimationFrame(draw);
+    const panels = [...document.querySelectorAll(".menu")];
+    function closeAll() { panels.forEach((p) => p.hidden = true); }
+    document.querySelectorAll(".ghost").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const panel = document.getElementById(btn.dataset.panel);
+        const willOpen = panel.hidden;
+        closeAll();
+        panel.hidden = !willOpen;
+      });
+    });
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".menu")) closeAll();
+    });
+    document.querySelectorAll("[data-copy]").forEach((btn) => {
+      btn.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        const label = btn.dataset.label;
+        try { await navigator.clipboard.writeText(btn.dataset.copy); btn.textContent = "Copied"; }
+        catch (err) { btn.textContent = btn.dataset.copy; }
+        setTimeout(() => { btn.textContent = label; }, 900);
+      });
+    });
+  </script>
 </body>
 </html>
