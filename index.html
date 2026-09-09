@@ -32,7 +32,9 @@
       border: 0; padding: 0; background: transparent;
       cursor: pointer; -webkit-tap-highlight-color: transparent;
       will-change: transform, opacity;
+      transition: transform .55s cubic-bezier(.22,.9,.28,1), opacity .55s ease;
     }
+    .carousel.dragging .ghost { transition: none; }
     .ghost img {
       width: 72px; height: 72px;
       aspect-ratio: 1 / 1;
@@ -49,24 +51,29 @@
       font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
       color: #f3eee6; text-align: center;
       white-space: nowrap;
-      animation: spinText 6s linear infinite;
       text-shadow: 0 1px 4px #000;
     }
-    @keyframes spinText {
-      from { transform: rotateY(0deg); }
-      to { transform: rotateY(360deg); }
-    }
     .reaper-hit {
-      display: block; margin: -8px auto 0;
-      width: min(210px, 54vw); height: min(270px, 40vh);
+      display: block; margin: -4px auto 0;
+      width: min(250px, 64vw); height: min(320px, 48vh);
       background: none; border: 0; padding: 0; cursor: pointer;
       -webkit-tap-highlight-color: transparent;
       -webkit-touch-callout: none;
       outline: none; user-select: none;
       appearance: none;
+      animation: reaperIdle 3.6s ease-in-out infinite;
+      transform-origin: 50% 80%;
     }
     .reaper-hit:focus, .reaper-hit:active { outline: none; background: transparent; }
+    .reaper-hit.slashing { animation: none; }
     .reaper { width: 100%; height: 100%; object-fit: contain; display: block; pointer-events: none; }
+    @keyframes reaperIdle {
+      0%, 100% { transform: translateY(0) rotate(-0.6deg); }
+      50% { transform: translateY(-7px) rotate(0.6deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reaper-hit { animation: none; }
+    }
     .slash-fx {
       position: fixed; inset: 0; z-index: 20; pointer-events: none; opacity: 0;
       perspective: 900px;
@@ -215,6 +222,9 @@
     const ghosts = [...document.querySelectorAll(".ghost")];
     const count = ghosts.length;
     let angle = 0;
+    let target = 0;
+    let vel = 0;
+    let raf = 0;
     function layout() {
       const rx = Math.min(window.innerWidth * 0.36, 128);
       const ry = 34;
@@ -230,32 +240,65 @@
         g.style.zIndex = String(Math.round(20 + depth * 50));
       });
     }
+    function tick() {
+      if (!dragging) {
+        const step = (Math.PI * 2) / count;
+        // ease toward snapped target with soft spring
+        const diff = target - angle;
+        vel = vel * 0.82 + diff * 0.12;
+        angle += vel;
+        if (Math.abs(diff) < 0.001 && Math.abs(vel) < 0.001) {
+          angle = target;
+          vel = 0;
+          raf = 0;
+          layout();
+          return;
+        }
+      }
+      layout();
+      raf = requestAnimationFrame(tick);
+    }
+    function ensureTick() {
+      if (!raf) raf = requestAnimationFrame(tick);
+    }
     layout();
     window.addEventListener("resize", layout);
 
     function snap() {
       const step = (Math.PI * 2) / count;
-      angle = Math.round(angle / step) * step;
-      layout();
+      target = Math.round(angle / step) * step;
+      ensureTick();
     }
 
     const carousel = document.getElementById("carousel");
-    let dragging = false, startX = 0, startAngle = 0, moved = 0;
+    let dragging = false, startX = 0, startAngle = 0, moved = 0, lastX = 0, lastT = 0;
     carousel.addEventListener("pointerdown", (e) => {
       dragging = true; moved = 0; startX = e.clientX; startAngle = angle;
+      lastX = e.clientX; lastT = performance.now(); vel = 0;
+      carousel.classList.add("dragging");
       carousel.setPointerCapture(e.pointerId);
+      ensureTick();
     });
     carousel.addEventListener("pointermove", (e) => {
       if (!dragging) return;
+      const now = performance.now();
       const dx = e.clientX - startX;
       moved = Math.max(moved, Math.abs(dx));
-      angle = startAngle + dx / 70;
+      angle = startAngle + dx / 85;
+      const dt = Math.max(16, now - lastT);
+      vel = ((e.clientX - lastX) / dt) / 40;
+      lastX = e.clientX; lastT = now;
       layout();
     });
     function endDrag() {
       if (!dragging) return;
       dragging = false;
-      snap();
+      carousel.classList.remove("dragging");
+      const step = (Math.PI * 2) / count;
+      // fling then snap
+      angle += vel * 8;
+      target = Math.round(angle / step) * step;
+      ensureTick();
     }
     carousel.addEventListener("pointerup", endDrag);
     carousel.addEventListener("pointercancel", endDrag);
@@ -268,8 +311,8 @@
         if (moved > 10) return;
         const i = Number(btn.dataset.i);
         const step = (Math.PI * 2) / count;
-        angle = -i * step;
-        layout();
+        target = -i * step;
+        ensureTick();
         const panel = document.getElementById(btn.dataset.panel);
         const willOpen = panel.hidden;
         closeAll();
@@ -287,11 +330,15 @@
       e.preventDefault();
       const a = (Math.random() * 140 - 70).toFixed(1) + "deg";
       slashFx.style.setProperty("--a", a);
+      hit.classList.add("slashing");
       slashFx.classList.remove("on");
       void slashFx.offsetWidth;
       slashFx.classList.add("on");
       clearTimeout(slashTimer);
-      slashTimer = setTimeout(() => slashFx.classList.remove("on"), 420);
+      slashTimer = setTimeout(() => {
+        slashFx.classList.remove("on");
+        hit.classList.remove("slashing");
+      }, 420);
     });
 
     document.querySelectorAll("[data-copy]").forEach((btn) => {
