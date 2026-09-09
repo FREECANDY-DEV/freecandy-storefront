@@ -1,45 +1,74 @@
 const canvas = document.getElementById("stars");
 const ctx = canvas.getContext("2d");
-const stars = [];
-let w = 0, h = 0;
+let stars = [];
 function resize() {
-  w = canvas.width = window.innerWidth;
-  h = canvas.height = window.innerHeight;
-  stars.length = 0;
-  const count = Math.min(220, Math.floor((w * h) / 9000));
-  for (let i = 0; i < count; i++) {
-    stars.push({ x: Math.random()*w, y: Math.random()*h, r: Math.random()*1.15+0.2, a: Math.random()*0.55+0.15, s: Math.random()*0.12+0.02, p: Math.random()*Math.PI*2 });
-  }
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const n = Math.min(320, Math.floor(canvas.width * canvas.height / 7000));
+  stars = Array.from({length:n}, () => {
+    const bright = Math.random() < 0.08;
+    return {
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height,
+      r: bright ? Math.random()*1.3+0.8 : Math.random()*0.7+0.25,
+      a: bright ? Math.random()*0.45+0.5 : Math.random()*0.45+0.15,
+      p: Math.random()*Math.PI*2,
+      s: Math.random()*0.6+0.15,
+      cross: bright && Math.random()<0.35,
+      c: Math.random()<0.2 ? "210,220,255" : "255,250,242"
+    };
+  });
 }
 function draw(t) {
-  ctx.clearRect(0, 0, w, h);
+  ctx.clearRect(0,0,canvas.width,canvas.height);
   for (const star of stars) {
-    const tw = 0.55 + Math.sin(t * 0.001 * star.s * 40 + star.p) * 0.45;
+    const tw = 0.65 + Math.sin(t*0.001*star.s + star.p)*0.35;
+    ctx.fillStyle = "rgba("+star.c+","+(star.a*tw)+")";
     ctx.beginPath();
-    ctx.fillStyle = "rgba(236,228,214," + (star.a * tw) + ")";
-    ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+    ctx.arc(star.x, star.y, star.r, 0, Math.PI*2);
     ctx.fill();
-    star.y -= star.s * 0.35;
-    if (star.y < -2) star.y = h + 2;
+    if (star.cross) {
+      ctx.strokeStyle = "rgba("+star.c+","+(star.a*tw*0.55)+")";
+      ctx.lineWidth = 0.6;
+      ctx.beginPath();
+      ctx.moveTo(star.x-star.r*3.2, star.y);
+      ctx.lineTo(star.x+star.r*3.2, star.y);
+      ctx.moveTo(star.x, star.y-star.r*3.2);
+      ctx.lineTo(star.x, star.y+star.r*3.2);
+      ctx.stroke();
+    }
   }
   requestAnimationFrame(draw);
 }
 resize();
 window.addEventListener("resize", resize);
 if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) requestAnimationFrame(draw);
-else stars.forEach((star) => { ctx.beginPath(); ctx.fillStyle = "rgba(236,228,214," + star.a + ")"; ctx.arc(star.x, star.y, star.r, 0, Math.PI*2); ctx.fill(); });
-const walletBtn = document.getElementById("wallet-btn");
-const wallet = document.getElementById("wallet-panel");
-walletBtn.addEventListener("click", () => {
-  const open = wallet.hasAttribute("hidden");
-  wallet.toggleAttribute("hidden", !open);
-  walletBtn.setAttribute("aria-expanded", String(open));
+else draw(0);
+
+const panels = [...document.querySelectorAll(".menu")];
+function closeAll() {
+  panels.forEach((p) => p.hidden = true);
+  document.querySelectorAll(".ghost").forEach((g) => g.setAttribute("aria-expanded", "false"));
+}
+document.querySelectorAll(".ghost").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const panel = document.getElementById(btn.dataset.panel);
+    const open = panel.hidden;
+    closeAll();
+    panel.hidden = !open;
+    btn.setAttribute("aria-expanded", String(open));
+  });
+});
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".menu") && !e.target.closest(".ghost")) closeAll();
 });
 document.querySelectorAll("[data-copy]").forEach((btn) => {
-  btn.addEventListener("click", async () => {
-    const label = btn.dataset.label || btn.textContent;
+  btn.addEventListener("click", async (e) => {
+    e.stopPropagation();
+    const label = btn.dataset.label;
     await navigator.clipboard.writeText(btn.dataset.copy);
     btn.textContent = "Copied";
-    setTimeout(() => { btn.textContent = label; }, 900);
+    setTimeout(() => { btn.textContent = label; }, 800);
   });
 });
