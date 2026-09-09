@@ -7,15 +7,43 @@
   <title>FREECANDY</title>
   <style>
     * { box-sizing: border-box; }
-    html, body { margin: 0; height: 100%; background: #000; color: #f3eee6; font-family: Georgia, serif; overflow: hidden; }
+    html, body { margin: 0; height: 100%; background: #000; color: #f3eee6; font-family: Georgia, serif; overflow: hidden; touch-action: none; }
     #stars { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; }
     .stage { position: relative; z-index: 1; height: 100%; height: 100dvh; }
     .mark {
       position: absolute; top: max(12px, env(safe-area-inset-top)); left: 16px; z-index: 6;
       color: #f3eee6; text-decoration: none; letter-spacing: .22em; font-size: 14px;
     }
+    .orbit {
+      position: absolute; left: 50%; top: 18%;
+      width: min(320px, 86vw); height: 120px;
+      transform: translateX(-50%);
+      perspective: 700px; z-index: 5;
+    }
+    .ring {
+      position: relative; width: 100%; height: 100%;
+      transform-style: preserve-3d;
+      transition: transform .35s cubic-bezier(.2,.8,.2,1);
+    }
+    .ghost {
+      position: absolute; left: 50%; top: 50%;
+      width: 72px; height: 72px;
+      margin: -36px 0 0 -36px;
+      border: 0; padding: 0; background: transparent;
+      transform-style: preserve-3d;
+      cursor: pointer; -webkit-tap-highlight-color: transparent;
+    }
+    .ghost img {
+      width: 72px; height: 72px;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      display: block;
+      image-rendering: pixelated;
+      pointer-events: none;
+      filter: drop-shadow(0 10px 12px rgba(0,0,0,.55));
+    }
     .reaper-hit {
-      position: absolute; left: 50%; top: 48%; z-index: 3;
+      position: absolute; left: 50%; top: 58%; z-index: 3;
       width: min(230px, 58vw); height: min(300px, 46vh);
       transform: translate(-50%, -50%);
       background: none; border: 0; padding: 0; cursor: pointer;
@@ -39,19 +67,15 @@
       32% { opacity: 1; transform: rotate(-6deg) scaleX(1); }
       100% { opacity: 0; transform: rotate(16deg) scaleX(1.08); }
     }
-    .ghost {
-      position: absolute; z-index: 4;
-      width: 64px; height: 64px; aspect-ratio: 1 / 1;
-      padding: 0; border: 0; background: transparent; cursor: pointer;
+    .hint {
+      position: absolute; left: 50%; top: calc(18% + 118px);
+      transform: translateX(-50%);
+      color: rgba(243,238,230,.45); font-size: 12px; letter-spacing: .12em;
+      text-transform: uppercase; z-index: 4; pointer-events: none;
     }
-    .ghost img { width: 100%; height: 100%; object-fit: contain; display: block; pointer-events: none; }
-    .g-svc { left: max(8px, env(safe-area-inset-left)); top: 14%; }
-    .g-arc { right: max(8px, env(safe-area-inset-right)); top: 16%; }
-    .g-talk { left: max(10px, env(safe-area-inset-left)); bottom: 8%; }
-    .g-pay { right: max(8px, env(safe-area-inset-right)); bottom: 8%; }
     .menu {
       position: absolute; z-index: 8; left: 12px; right: 12px; bottom: 14px;
-      max-height: 42vh; overflow: auto;
+      max-height: 38vh; overflow: auto;
       background: rgba(0,0,0,.92); border: 1px solid rgba(243,238,230,.2); padding: 14px;
     }
     .menu h2 { margin: 0 0 8px; font-weight: 500; font-size: 26px; }
@@ -64,23 +88,25 @@
       padding: 10px 0; font: inherit; cursor: pointer;
     }
     .menu small { display: block; color: #b7b1a6; font-size: 14px; }
-    @media (max-width: 700px) {
-      .ghost { width: 58px; height: 58px; }
-    }
   </style>
 </head>
 <body>
   <canvas id="stars"></canvas>
   <div class="stage">
     <a class="mark" href="https://github.com/FREECANDY-DEV">FREECANDY</a>
+    <div class="orbit" id="orbit">
+      <div class="ring" id="ring">
+        <button class="ghost" type="button" data-panel="svc" data-i="0" aria-label="Services"><img src="assets/ghost-svc.jpg?v=9" width="72" height="72" alt="" /></button>
+        <button class="ghost" type="button" data-panel="arc" data-i="1" aria-label="Archive"><img src="assets/ghost-arc.jpg?v=9" width="72" height="72" alt="" /></button>
+        <button class="ghost" type="button" data-panel="talk" data-i="2" aria-label="Contact"><img src="assets/ghost-talk.jpg?v=9" width="72" height="72" alt="" /></button>
+        <button class="ghost" type="button" data-panel="pay" data-i="3" aria-label="Deposit"><img src="assets/ghost-pay.jpg?v=9" width="72" height="72" alt="" /></button>
+      </div>
+    </div>
+    <p class="hint">swipe ghosts</p>
     <button class="reaper-hit" id="reaper-hit" type="button" aria-label="Reaper">
       <img class="reaper" src="assets/reaper.jpg?v=8" alt="" />
       <span class="slash"></span>
     </button>
-    <button class="ghost g-svc" type="button" data-panel="svc" aria-label="Services"><img src="assets/ghost-svc.jpg?v=8" alt="" /></button>
-    <button class="ghost g-arc" type="button" data-panel="arc" aria-label="Archive"><img src="assets/ghost-arc.jpg?v=8" alt="" /></button>
-    <button class="ghost g-talk" type="button" data-panel="talk" aria-label="Contact"><img src="assets/ghost-talk.jpg?v=8" alt="" /></button>
-    <button class="ghost g-pay" type="button" data-panel="pay" aria-label="Deposit"><img src="assets/ghost-pay.jpg?v=8" alt="" /></button>
     <section class="menu" id="svc" hidden>
       <h2>Services</h2>
       <ul>
@@ -145,6 +171,86 @@
     }
     drawStars();
     window.addEventListener("resize", drawStars);
+
+    const ghosts = [...document.querySelectorAll(".ghost")];
+    const count = ghosts.length;
+    let angle = 0;
+    let radius = Math.min(window.innerWidth * 0.34, 118);
+    function layout() {
+      radius = Math.min(window.innerWidth * 0.34, 118);
+      ghosts.forEach((g, i) => {
+        const a = (i / count) * Math.PI * 2 + angle;
+        const x = Math.sin(a) * radius;
+        const z = Math.cos(a) * radius;
+        const depth = (z + radius) / (radius * 2);
+        const scale = 0.55 + depth * 0.7;
+        const opacity = 0.35 + depth * 0.65;
+        g.style.transform = "translate3d(" + x + "px,0," + z + "px) scale(" + scale + ")";
+        g.style.opacity = String(opacity);
+        g.style.zIndex = String(Math.round(10 + depth * 40));
+        g.dataset.front = depth > 0.78 ? "1" : "0";
+      });
+    }
+    layout();
+    window.addEventListener("resize", layout);
+
+    function snapToNearest() {
+      const step = (Math.PI * 2) / count;
+      angle = Math.round(angle / step) * step;
+      layout();
+    }
+    function rotateBy(delta) {
+      angle += delta;
+      layout();
+    }
+
+    const orbit = document.getElementById("orbit");
+    let dragging = false;
+    let startX = 0;
+    let startAngle = 0;
+    let moved = 0;
+    orbit.addEventListener("pointerdown", (e) => {
+      dragging = true;
+      moved = 0;
+      startX = e.clientX;
+      startAngle = angle;
+      orbit.setPointerCapture(e.pointerId);
+    });
+    orbit.addEventListener("pointermove", (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      moved = Math.max(moved, Math.abs(dx));
+      angle = startAngle + dx / 90;
+      layout();
+    });
+    function endDrag() {
+      if (!dragging) return;
+      dragging = false;
+      snapToNearest();
+    }
+    orbit.addEventListener("pointerup", endDrag);
+    orbit.addEventListener("pointercancel", endDrag);
+
+    const panels = [...document.querySelectorAll(".menu")];
+    function closeAll() { panels.forEach((p) => { p.hidden = true; }); }
+    ghosts.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (moved > 12) return;
+        const panel = document.getElementById(btn.dataset.panel);
+        const willOpen = panel.hidden;
+        closeAll();
+        panel.hidden = !willOpen;
+        const i = Number(btn.dataset.i);
+        const step = (Math.PI * 2) / count;
+        angle = -i * step;
+        layout();
+      });
+    });
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".menu") && !e.target.closest(".ghost")) closeAll();
+    });
+
     const hit = document.getElementById("reaper-hit");
     let slashTimer = 0;
     function slash() {
@@ -155,20 +261,7 @@
       slashTimer = setTimeout(() => hit.classList.remove("slashing"), 460);
     }
     hit.addEventListener("pointerdown", (e) => { e.preventDefault(); slash(); });
-    const panels = [...document.querySelectorAll(".menu")];
-    function closeAll() { panels.forEach((p) => { p.hidden = true; }); }
-    document.querySelectorAll(".ghost").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const panel = document.getElementById(btn.dataset.panel);
-        const willOpen = panel.hidden;
-        closeAll();
-        panel.hidden = !willOpen;
-      });
-    });
-    document.addEventListener("click", (e) => {
-      if (!e.target.closest(".menu") && !e.target.closest(".ghost")) closeAll();
-    });
+
     document.querySelectorAll("[data-copy]").forEach((btn) => {
       btn.addEventListener("click", async (e) => {
         e.stopPropagation();
