@@ -3,101 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="description" content="FREECANDY — bots, pages, and automations. Fixed price. Public work." />
-  <meta name="theme-color" content="#07080d" />
+  <meta name="description" content="FREECANDY studio." />
+  <meta name="theme-color" content="#000000" />
   <title>FREECANDY</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Outfit:wght@300;400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <canvas id="stars" aria-hidden="true"></canvas>
-  <div class="veil" aria-hidden="true"></div>
-  <div class="page">
-    <header class="nav">
-      <a class="mark" href="https://github.com/FREECANDY-DEV" target="_blank" rel="noreferrer">
-        <span class="mark-name">FREECANDY</span>
-        <span class="mark-sub">Studio</span>
-      </a>
-      <div class="nav-actions">
-        <a class="text-link" href="https://t.me/WIND0WSUPDATE" target="_blank" rel="noreferrer">Telegram</a>
-        <button type="button" class="wallet-btn" id="wallet-btn" aria-expanded="false" aria-controls="wallet-panel">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.2A2.2 2.2 0 0 1 6.2 6h11.6A2.2 2.2 0 0 1 20 8.2V9.4h-5.4a2.1 2.1 0 1 0 0 4.2H20v2.2A2.2 2.2 0 0 1 17.8 18H6.2A2.2 2.2 0 0 1 4 15.8V8.2Z" fill="currentColor"/></svg>
-          Deposit
-        </button>
-      </div>
-    </header>
-    <main>
-      <section class="hero">
-        <p class="eyebrow">Public studio · fixed price</p>
-        <h1>Quiet work.<br />Clear delivery.</h1>
-        <p class="lede">WhatsApp and Telegram bots, landing pages, and n8n automations. A short brief, no calls, files handed back in two to four days.</p>
-      </section>
-      <section class="offers" aria-label="Services">
-        <article>
-          <p class="num">01</p>
-          <h2>Bots</h2>
-          <p>FAQ replies, lead capture, or a booking request on WhatsApp or Telegram.</p>
-          <p class="price">from $99</p>
-        </article>
-        <article>
-          <p class="num">02</p>
-          <h2>Pages</h2>
-          <p>A single mobile-first page, ready to publish, with your copy and links.</p>
-          <p class="price">from $79</p>
-        </article>
-        <article>
-          <p class="num">03</p>
-          <h2>Flows</h2>
-          <p>n8n and Google Sheets automations that move a lead or a form into a sheet.</p>
-          <p class="price">from $149</p>
-        </article>
-      </section>
-      <section class="work" aria-label="Public work">
-        <div class="section-head">
-          <p class="eyebrow">Selected work</p>
-          <p class="section-note">Public repositories only</p>
-        </div>
-        <div class="grid">
-          <a href="https://github.com/FREECANDY-DEV/pixel-world" target="_blank" rel="noreferrer">
-            <img src="assets/repo-pixel-world.gif" alt="pixel-world seasons forest" />
-            <span><em>pixel-world</em><small>Seasonal scene</small></span>
-          </a>
-          <a href="https://github.com/FREECANDY-DEV/Deus" target="_blank" rel="noreferrer">
-            <img src="assets/repo-deus.jpg" alt="Deus neural persona" />
-            <span><em>Deus</em><small>Neural study</small></span>
-          </a>
-          <a href="https://github.com/FREECANDY-DEV/Pro_Linux_Screen_control" target="_blank" rel="noreferrer">
-            <img src="assets/repo-screen.jpg" alt="screen control preview" />
-            <span><em>Screen control</em><small>Linux desktop</small></span>
-          </a>
-          <a href="https://github.com/FREECANDY-DEV/TryHackMe-writeups" target="_blank" rel="noreferrer">
-            <img src="assets/repo-thm.png" alt="TryHackMe writeups" />
-            <span><em>Writeups</em><small>Study notes</small></span>
-          </a>
-        </div>
-      </section>
-      <section class="commission">
-        <div>
-          <p class="eyebrow">Contact</p>
-          <h2>Write on Telegram.</h2>
-          <p class="lede">Message @WIND0WSUPDATE with the job and what done looks like. Payment is USDT or XRP after the scope is clear.</p>
-          <a class="contact" href="https://t.me/WIND0WSUPDATE" target="_blank" rel="noreferrer">Open Telegram</a>
-        </div>
-      </section>
-    </main>
-    <footer>
-      <span>FREECANDY</span>
-      <span>Remote · English</span>
-    </footer>
-  </div>
-  <div class="wallet-panel" id="wallet-panel" hidden>
-    <p class="eyebrow">Deposit</p>
-    <p class="wallet-copy">Tap to copy. XRP needs the memo or the transfer can be lost.</p>
-    <button type="button" data-copy="TSTtvBTt8qrDE5fFoAp3DzqW58H8dfYwhV" data-label="USDT TRC20">USDT TRC20</button>
-    <button type="button" data-copy="rBuZfn1m4tA6znziHsRp9AyC1M3qg6rgbF" data-label="XRP address">XRP address</button>
-    <button type="button" class="memo" data-copy="6421912" data-label="XRP memo 6421912">XRP memo 6421912</button>
+  <div class="stage">
+    <a class="mark" href="https://github.com/FREECANDY-DEV" target="_blank" rel="noreferrer">FREECANDY</a>
+    <img class="reaper" src="assets/reaper.jpg" alt="Pixel reaper" />
+
+    <button class="ghost g-svc" type="button" data-panel="svc" aria-expanded="false" aria-controls="svc" aria-label="Services"></button>
+    <button class="ghost g-arc" type="button" data-panel="arc" aria-expanded="false" aria-controls="arc" aria-label="Archive"></button>
+    <button class="ghost g-talk" type="button" data-panel="talk" aria-expanded="false" aria-controls="talk" aria-label="Contact"></button>
+    <button class="ghost g-pay" type="button" data-panel="pay" aria-expanded="false" aria-controls="pay" aria-label="Deposit"></button>
+
+    <section class="menu" id="svc" hidden>
+      <h2>Services</h2>
+      <ul>
+        <li>Bots<small>from $99</small></li>
+        <li>Pages<small>from $79</small></li>
+        <li>Flows<small>from $149</small></li>
+      </ul>
+    </section>
+
+    <section class="menu" id="arc" hidden>
+      <h2>Archive</h2>
+      <a href="https://github.com/FREECANDY-DEV/pixel-world" target="_blank" rel="noreferrer">pixel-world</a>
+      <a href="https://github.com/FREECANDY-DEV/Deus" target="_blank" rel="noreferrer">Deus</a>
+      <a href="https://github.com/FREECANDY-DEV/Pro_Linux_Screen_control" target="_blank" rel="noreferrer">Screen control</a>
+      <a href="https://github.com/FREECANDY-DEV/TryHackMe-writeups" target="_blank" rel="noreferrer">Writeups</a>
+    </section>
+
+    <section class="menu" id="talk" hidden>
+      <h2>Contact</h2>
+      <p>Message on Telegram.</p>
+      <a href="https://t.me/WIND0WSUPDATE" target="_blank" rel="noreferrer">@WIND0WSUPDATE</a>
+    </section>
+
+    <section class="menu" id="pay" hidden>
+      <h2>Deposit</h2>
+      <p>Tap to copy. XRP needs the memo.</p>
+      <button class="copy" type="button" data-copy="TSTtvBTt8qrDE5fFoAp3DzqW58H8dfYwhV" data-label="USDT TRC20">USDT TRC20</button>
+      <button class="copy" type="button" data-copy="rBuZfn1m4tA6znziHsRp9AyC1M3qg6rgbF" data-label="XRP address">XRP address</button>
+      <button class="copy" type="button" data-copy="6421912" data-label="XRP memo 6421912">XRP memo 6421912</button>
+    </section>
   </div>
   <script src="app.js"></script>
 </body>
