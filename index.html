@@ -4,78 +4,90 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#000000" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
   <title>FREECANDY</title>
   <style>
     * { box-sizing: border-box; }
-    html, body { margin: 0; height: 100%; background: #000; color: #f3eee6; font-family: Georgia, serif; overflow: hidden; touch-action: none; }
+    html, body { margin: 0; height: 100%; background: #000; color: #f3eee6; font-family: Georgia, serif; overflow: hidden; }
     #stars { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; }
     .stage { position: relative; z-index: 1; height: 100%; height: 100dvh; }
     .mark {
-      position: absolute; top: max(12px, env(safe-area-inset-top)); left: 16px; z-index: 6;
+      position: absolute; top: max(12px, env(safe-area-inset-top)); left: 16px; z-index: 8;
       color: #f3eee6; text-decoration: none; letter-spacing: .22em; font-size: 14px;
     }
-    .orbit {
-      position: absolute; left: 50%; top: 18%;
-      width: min(320px, 86vw); height: 120px;
+    .carousel {
+      position: absolute; left: 50%; top: 10%;
+      width: min(360px, 94vw); height: 150px;
       transform: translateX(-50%);
-      perspective: 700px; z-index: 5;
-    }
-    .ring {
-      position: relative; width: 100%; height: 100%;
-      transform-style: preserve-3d;
-      transition: transform .35s cubic-bezier(.2,.8,.2,1);
+      z-index: 6; touch-action: pan-y;
     }
     .ghost {
       position: absolute; left: 50%; top: 50%;
-      width: 72px; height: 72px;
-      margin: -36px 0 0 -36px;
+      width: 84px; height: 84px;
+      margin: -42px 0 0 -42px;
       border: 0; padding: 0; background: transparent;
-      transform-style: preserve-3d;
       cursor: pointer; -webkit-tap-highlight-color: transparent;
+      will-change: transform, opacity;
     }
     .ghost img {
-      width: 72px; height: 72px;
+      width: 84px; height: 84px;
       aspect-ratio: 1 / 1;
       object-fit: contain;
       display: block;
       image-rendering: pixelated;
       pointer-events: none;
-      filter: drop-shadow(0 10px 12px rgba(0,0,0,.55));
+      filter: drop-shadow(0 12px 14px rgba(0,0,0,.6));
+    }
+    .hint {
+      position: absolute; left: 50%; top: calc(10% + 152px);
+      transform: translateX(-50%);
+      margin: 0; color: rgba(243,238,230,.5);
+      font-size: 11px; letter-spacing: .16em; text-transform: uppercase; z-index: 5;
     }
     .reaper-hit {
-      position: absolute; left: 50%; top: 58%; z-index: 3;
+      position: absolute; left: 50%; top: 62%; z-index: 3;
       width: min(230px, 58vw); height: min(300px, 46vh);
       transform: translate(-50%, -50%);
       background: none; border: 0; padding: 0; cursor: pointer;
     }
     .reaper { width: 100%; height: 100%; object-fit: contain; display: block; pointer-events: none; }
-    .slash {
-      position: absolute; left: 12%; top: 18%; width: 78%; height: 42%;
-      border-top: 2px solid rgba(255, 248, 230, 0.95);
-      border-radius: 50%; opacity: 0; pointer-events: none;
-      filter: drop-shadow(0 0 6px rgba(255,248,230,.7));
+    .slash-fx {
+      position: fixed; inset: 0; z-index: 20; pointer-events: none;
+      opacity: 0;
     }
-    .reaper-hit.slashing .reaper { animation: swing .45s ease-out; }
-    .reaper-hit.slashing .slash { animation: cut .45s ease-out; }
-    @keyframes swing {
-      0% { transform: rotate(0deg); }
-      28% { transform: rotate(-12deg) translate(-6%, -2%); }
-      100% { transform: rotate(0deg); }
+    .slash-fx.on { animation: screenSlash .42s ease-out; }
+    .slash-fx::before, .slash-fx::after {
+      content: ""; position: absolute; left: -10%; top: 48%;
+      width: 120%; height: 3px;
+      background: linear-gradient(90deg, transparent, #fff6e4 18%, #fff 50%, #fff6e4 82%, transparent);
+      box-shadow: 0 0 12px 2px rgba(255,246,228,.85), 0 0 28px 6px rgba(255,246,228,.35);
+      transform-origin: center;
     }
-    @keyframes cut {
-      0% { opacity: 0; transform: rotate(-42deg) scaleX(.12); }
-      32% { opacity: 1; transform: rotate(-6deg) scaleX(1); }
-      100% { opacity: 0; transform: rotate(16deg) scaleX(1.08); }
+    .slash-fx::before { transform: rotate(-28deg) scaleX(.1); }
+    .slash-fx::after {
+      top: 50%; height: 1px; opacity: .7;
+      transform: rotate(-28deg) translateY(10px) scaleX(.1);
     }
-    .hint {
-      position: absolute; left: 50%; top: calc(18% + 118px);
-      transform: translateX(-50%);
-      color: rgba(243,238,230,.45); font-size: 12px; letter-spacing: .12em;
-      text-transform: uppercase; z-index: 4; pointer-events: none;
+    @keyframes screenSlash {
+      0% { opacity: 0; }
+      12% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    .slash-fx.on::before { animation: blade .42s ease-out; }
+    .slash-fx.on::after { animation: bladeSoft .42s ease-out; }
+    @keyframes blade {
+      0% { transform: rotate(-28deg) scaleX(.08); }
+      35% { transform: rotate(-28deg) scaleX(1); }
+      100% { transform: rotate(-28deg) scaleX(1.05); }
+    }
+    @keyframes bladeSoft {
+      0% { transform: rotate(-28deg) translateY(10px) scaleX(.08); }
+      35% { transform: rotate(-28deg) translateY(10px) scaleX(1); }
+      100% { transform: rotate(-28deg) translateY(10px) scaleX(1.05); }
     }
     .menu {
-      position: absolute; z-index: 8; left: 12px; right: 12px; bottom: 14px;
-      max-height: 38vh; overflow: auto;
+      position: absolute; z-index: 9; left: 12px; right: 12px; bottom: 14px;
+      max-height: 36vh; overflow: auto;
       background: rgba(0,0,0,.92); border: 1px solid rgba(243,238,230,.2); padding: 14px;
     }
     .menu h2 { margin: 0 0 8px; font-weight: 500; font-size: 26px; }
@@ -92,20 +104,18 @@
 </head>
 <body>
   <canvas id="stars"></canvas>
+  <div class="slash-fx" id="slash-fx"></div>
   <div class="stage">
     <a class="mark" href="https://github.com/FREECANDY-DEV">FREECANDY</a>
-    <div class="orbit" id="orbit">
-      <div class="ring" id="ring">
-        <button class="ghost" type="button" data-panel="svc" data-i="0" aria-label="Services"><img src="assets/ghost-svc.jpg?v=9" width="72" height="72" alt="" /></button>
-        <button class="ghost" type="button" data-panel="arc" data-i="1" aria-label="Archive"><img src="assets/ghost-arc.jpg?v=9" width="72" height="72" alt="" /></button>
-        <button class="ghost" type="button" data-panel="talk" data-i="2" aria-label="Contact"><img src="assets/ghost-talk.jpg?v=9" width="72" height="72" alt="" /></button>
-        <button class="ghost" type="button" data-panel="pay" data-i="3" aria-label="Deposit"><img src="assets/ghost-pay.jpg?v=9" width="72" height="72" alt="" /></button>
-      </div>
+    <div class="carousel" id="carousel">
+      <button class="ghost" type="button" data-panel="svc" data-i="0" aria-label="Services"><img src="assets/ghost-svc.jpg?v=31" width="84" height="84" alt="" /></button>
+      <button class="ghost" type="button" data-panel="arc" data-i="1" aria-label="Archive"><img src="assets/ghost-arc.jpg?v=31" width="84" height="84" alt="" /></button>
+      <button class="ghost" type="button" data-panel="talk" data-i="2" aria-label="Contact"><img src="assets/ghost-talk.jpg?v=31" width="84" height="84" alt="" /></button>
+      <button class="ghost" type="button" data-panel="pay" data-i="3" aria-label="Deposit"><img src="assets/ghost-pay.jpg?v=31" width="84" height="84" alt="" /></button>
     </div>
-    <p class="hint">swipe ghosts</p>
+    <p class="hint">swipe the circle</p>
     <button class="reaper-hit" id="reaper-hit" type="button" aria-label="Reaper">
-      <img class="reaper" src="assets/reaper.jpg?v=8" alt="" />
-      <span class="slash"></span>
+      <img class="reaper" src="assets/reaper.jpg?v=31" alt="" />
     </button>
     <section class="menu" id="svc" hidden>
       <h2>Services</h2>
@@ -175,76 +185,65 @@
     const ghosts = [...document.querySelectorAll(".ghost")];
     const count = ghosts.length;
     let angle = 0;
-    let radius = Math.min(window.innerWidth * 0.34, 118);
     function layout() {
-      radius = Math.min(window.innerWidth * 0.34, 118);
+      const rx = Math.min(window.innerWidth * 0.38, 140);
+      const ry = 48;
       ghosts.forEach((g, i) => {
         const a = (i / count) * Math.PI * 2 + angle;
-        const x = Math.sin(a) * radius;
-        const z = Math.cos(a) * radius;
-        const depth = (z + radius) / (radius * 2);
-        const scale = 0.55 + depth * 0.7;
-        const opacity = 0.35 + depth * 0.65;
-        g.style.transform = "translate3d(" + x + "px,0," + z + "px) scale(" + scale + ")";
+        const x = Math.sin(a) * rx;
+        const y = Math.cos(a) * ry;
+        const depth = (Math.cos(a) + 1) / 2;
+        const scale = 0.55 + depth * 0.9;
+        const opacity = 0.3 + depth * 0.7;
+        g.style.transform = "translate(" + x + "px," + y + "px) scale(" + scale + ")";
         g.style.opacity = String(opacity);
-        g.style.zIndex = String(Math.round(10 + depth * 40));
-        g.dataset.front = depth > 0.78 ? "1" : "0";
+        g.style.zIndex = String(Math.round(20 + depth * 50));
       });
     }
     layout();
     window.addEventListener("resize", layout);
 
-    function snapToNearest() {
+    function snap() {
       const step = (Math.PI * 2) / count;
       angle = Math.round(angle / step) * step;
       layout();
     }
-    function rotateBy(delta) {
-      angle += delta;
-      layout();
-    }
 
-    const orbit = document.getElementById("orbit");
-    let dragging = false;
-    let startX = 0;
-    let startAngle = 0;
-    let moved = 0;
-    orbit.addEventListener("pointerdown", (e) => {
-      dragging = true;
-      moved = 0;
-      startX = e.clientX;
-      startAngle = angle;
-      orbit.setPointerCapture(e.pointerId);
+    const carousel = document.getElementById("carousel");
+    let dragging = false, startX = 0, startAngle = 0, moved = 0;
+    carousel.addEventListener("pointerdown", (e) => {
+      dragging = true; moved = 0; startX = e.clientX; startAngle = angle;
+      carousel.setPointerCapture(e.pointerId);
     });
-    orbit.addEventListener("pointermove", (e) => {
+    carousel.addEventListener("pointermove", (e) => {
       if (!dragging) return;
       const dx = e.clientX - startX;
       moved = Math.max(moved, Math.abs(dx));
-      angle = startAngle + dx / 90;
+      angle = startAngle + dx / 70;
       layout();
     });
     function endDrag() {
       if (!dragging) return;
       dragging = false;
-      snapToNearest();
+      snap();
     }
-    orbit.addEventListener("pointerup", endDrag);
-    orbit.addEventListener("pointercancel", endDrag);
+    carousel.addEventListener("pointerup", endDrag);
+    carousel.addEventListener("pointercancel", endDrag);
 
     const panels = [...document.querySelectorAll(".menu")];
     function closeAll() { panels.forEach((p) => { p.hidden = true; }); }
     ghosts.forEach((btn) => {
       btn.addEventListener("click", (e) => {
         e.stopPropagation();
-        if (moved > 12) return;
-        const panel = document.getElementById(btn.dataset.panel);
-        const willOpen = panel.hidden;
-        closeAll();
-        panel.hidden = !willOpen;
+        if (moved > 10) return;
         const i = Number(btn.dataset.i);
         const step = (Math.PI * 2) / count;
         angle = -i * step;
         layout();
+        const panel = document.getElementById(btn.dataset.panel);
+        const willOpen = panel.hidden;
+        closeAll();
+        panel.hidden = !willOpen;
       });
     });
     document.addEventListener("click", (e) => {
@@ -252,15 +251,16 @@
     });
 
     const hit = document.getElementById("reaper-hit");
+    const slashFx = document.getElementById("slash-fx");
     let slashTimer = 0;
-    function slash() {
-      hit.classList.remove("slashing");
-      void hit.offsetWidth;
-      hit.classList.add("slashing");
+    hit.addEventListener("pointerdown", (e) => {
+      e.preventDefault();
+      slashFx.classList.remove("on");
+      void slashFx.offsetWidth;
+      slashFx.classList.add("on");
       clearTimeout(slashTimer);
-      slashTimer = setTimeout(() => hit.classList.remove("slashing"), 460);
-    }
-    hit.addEventListener("pointerdown", (e) => { e.preventDefault(); slash(); });
+      slashTimer = setTimeout(() => slashFx.classList.remove("on"), 450);
+    });
 
     document.querySelectorAll("[data-copy]").forEach((btn) => {
       btn.addEventListener("click", async (e) => {
